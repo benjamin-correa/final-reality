@@ -1,4 +1,4 @@
-package com.github.cc3002.finalreality.model.character.player;
+package com.github.correa.finalreality.model.character.player;
 
 /**
  * Enumeration of the classes a player character may have.
@@ -9,3 +9,8 @@ package com.github.cc3002.finalreality.model.character.player;
 public enum CharacterClass {
   KNIGHT, ENGINEER, THIEF, BLACK_MAGE, WHITE_MAGE, ENEMY
 }
+
+
+/**
+ * agrego esto para ver si funciona
+ */

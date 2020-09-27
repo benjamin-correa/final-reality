@@ -8,7 +8,7 @@ plugins {
 }
 
 application {
-    mainClassName = "$moduleName/com.github.cc3002.finalreality.gui.FinalReality"
+    mainClassName = "$moduleName/com.github.correa.finalreality.gui.FinalReality"
 }
 
 group = "com.github.cc3002"
