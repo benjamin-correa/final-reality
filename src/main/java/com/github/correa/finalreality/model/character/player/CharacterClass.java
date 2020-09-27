@@ -11,6 +11,3 @@ public enum CharacterClass {
 }
 
 
-/**
- * agrego esto para ver si funciona
- */
