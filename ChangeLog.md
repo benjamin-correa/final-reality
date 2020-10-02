@@ -3,7 +3,15 @@ ChangeLog
 
 Version 2.0
 -----------
-Write your changes in here
+- (RC.1) Added and updated the methods descriptions
+- (B.8) Added methods on the PlayerCharacter class (added equip(Weapon), getEquippedWeapon() and getCharacterClass())
+- (B.7) Implemented waitTurn() method on PlayerCharacter and Enemy classes
+- (B.6) Updated constructor on PlayerCharacter and Enemy classes 
+- (B.5) Removed ENEMY from CharacterClass
+- (B.4) Implemented the ICharacter methods on the AbstractCharacter abstract class
+- (B.3) Removed methods on the AbstractCharacter abstract class (removed equip(Weapon), getEquippedWeapon() and getCharacterClass())
+- (B.2) Removed methods on the ICharacter interface (removed equip(Weapon), getEquippedWeapon() and getCharacterClass())
+- (B.1) Added methods on the ICharacter interface (added addToQueue(), getHealthPoints() and getDefensePoints())
 
 Version 1.0
 -----------

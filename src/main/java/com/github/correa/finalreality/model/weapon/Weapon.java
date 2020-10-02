@@ -1,12 +1,14 @@
 package com.github.correa.finalreality.model.weapon;
 
 import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A class that holds all the information of a weapon.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author <Benjamín Correa>
  */
 public class Weapon {
 
@@ -43,6 +45,8 @@ public class Weapon {
   private WeaponType getType() {
     return type;
   }
+
+
 
   @Override
   public boolean equals(final Object o) {

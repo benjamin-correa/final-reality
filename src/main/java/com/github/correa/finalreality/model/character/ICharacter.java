@@ -8,7 +8,7 @@ import com.github.correa.finalreality.model.weapon.Weapon;
  * A character can be controlled by the player or by the CPU (an enemy).
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author <Benjamín Correa>
  */
 public interface ICharacter {
 
@@ -19,22 +19,22 @@ public interface ICharacter {
   void waitTurn();
 
   /**
+   * Adds this character to the turns queue.
+   */
+  void addToQueue();
+
+  /**
    * Returns this character's name.
    */
   String getName();
 
   /**
-   * Equips a weapon to the character.
+   * Returns this character health points.
    */
-  void equip(Weapon weapon);
+  int getHealthPoints();
 
   /**
-   * Return this character's equipped weapon.
+   * Returns this character defense points.
    */
-  Weapon getEquippedWeapon();
-
-  /**
-   * Returns this character's class.
-   */
-  CharacterClass getCharacterClass();
+  int getDefensePoints();
 }
