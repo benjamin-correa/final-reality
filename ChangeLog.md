@@ -12,7 +12,7 @@ Version 2.0
 - (B.3) Removed methods on the AbstractCharacter abstract class (removed equip(Weapon), getEquippedWeapon() and getCharacterClass())
 - (B.2) Removed methods on the ICharacter interface (removed equip(Weapon), getEquippedWeapon() and getCharacterClass())
 - (B.1) Added methods on the ICharacter interface (added addToQueue(), getHealthPoints() and getDefensePoints())
-- viendo si me eche esto
+
 Version 1.0
 -----------
 - (RC.1) Implemented missing tests
