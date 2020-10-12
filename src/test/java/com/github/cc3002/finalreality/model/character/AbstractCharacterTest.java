@@ -1,19 +1,20 @@
 package com.github.cc3002.finalreality.model.character;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import com.github.correa.finalreality.model.character.Enemy;
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.player.PlayerCharacter;
 import com.github.correa.finalreality.model.weapon.Weapon;
 import com.github.correa.finalreality.model.weapon.WeaponType;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Abstract class containing the common tests for all the types of characters.
@@ -65,19 +66,20 @@ public abstract class AbstractCharacterTest {
     assertNotEquals(sameClassDifferentCharacter, testEqualCharacter);
     assertNotEquals(testEqualCharacter, sameStatsDifferentClassCharacter);
     assertEquals(expectedCharacter.hashCode(), testEqualCharacter.hashCode());;
+    assertNotEquals(testEqualCharacter, new Object());
   }
   protected void checkEnemyConstruction(final Enemy expectedEnemy,
       final Enemy testEqualEnemy,
       final Enemy sameWeightDifferentEnemy,
-      final Enemy sameHealthPointsDifferentEnemy,
+      final Enemy sameHitPointsDifferentEnemy,
       final Enemy sameDefensePointsDifferentEnemy,
       final PlayerCharacter sameStatsDifferentClass) {
     assertEquals(expectedEnemy, testEqualEnemy);
     assertNotEquals(sameWeightDifferentEnemy, testEqualEnemy);
-    assertNotEquals(sameHealthPointsDifferentEnemy, testEqualEnemy);
+    assertNotEquals(sameHitPointsDifferentEnemy, testEqualEnemy);
     assertNotEquals(sameDefensePointsDifferentEnemy, testEqualEnemy);
     assertEquals(expectedEnemy.hashCode(), testEqualEnemy.hashCode());
-    assertNotEquals(sameStatsDifferentClass, expectedEnemy);
+    assertNotEquals(testEqualEnemy, new Object());
   }
 
   protected void basicSetUp() {

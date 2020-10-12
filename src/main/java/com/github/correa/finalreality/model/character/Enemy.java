@@ -1,9 +1,9 @@
 package com.github.correa.finalreality.model.character;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A class that holds all the information of a single enemy of the game.
@@ -21,18 +21,18 @@ public class Enemy extends AbstractCharacter {
    *     the queue with the characters waiting for their turn
    * @param name
    *     the enemy's name
-   * @param healthPoints
-   *     the enemy's healthPoints
+   * @param hitPoints
+   *     the enemy's hitPoints
    * @param defensePoints
    *     the enemy's defensePoints
    * @param weight
    *     the weight of this enemy
    */
   public Enemy(@NotNull final String name,
-      int healthPoints, int defensePoints,
+      int hitPoints, int defensePoints,
       @NotNull final BlockingQueue<ICharacter> turnsQueue,
       final int weight) {
-    super(turnsQueue, name, healthPoints, defensePoints);
+    super(turnsQueue, name, hitPoints, defensePoints);
     this.weight = weight;
   }
 
@@ -43,7 +43,7 @@ public class Enemy extends AbstractCharacter {
 
   @Override
   public int hashCode() {
-    int hash = Objects.hash(getWeight(), getDefensePoints(), getHealthPoints());
+    int hash = Objects.hash(getWeight(), getDefensePoints(), getHitPoints());
     return hash;
   }
 
@@ -58,7 +58,7 @@ public class Enemy extends AbstractCharacter {
     final Enemy enemy = (Enemy) o;
     return getWeight() == enemy.getWeight()
         && getDefensePoints() == enemy.getDefensePoints()
-        && getHealthPoints() == enemy.getHealthPoints();
+        && getHitPoints() == enemy.getHitPoints();
   }
 
 }

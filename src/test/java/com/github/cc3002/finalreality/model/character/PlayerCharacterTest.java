@@ -1,16 +1,16 @@
 package com.github.cc3002.finalreality.model.character;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.github.correa.finalreality.model.character.Enemy;
 import com.github.correa.finalreality.model.character.player.CharacterClass;
 import com.github.correa.finalreality.model.character.player.PlayerCharacter;
-import java.util.EnumMap;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Set of tests for the {@code GameCharacter} class.
@@ -42,6 +42,7 @@ class PlayerCharacterTest extends AbstractCharacterTest {
     characterNames.put(CharacterClass.WHITE_MAGE, WHITE_MAGE_NAME);
     characterNames.put(CharacterClass.ENGINEER, ENGINEER_NAME);
     characterNames.put(CharacterClass.THIEF, THIEF_NAME);
+
 
     for (var characterClass :
         characterNames.keySet()) {

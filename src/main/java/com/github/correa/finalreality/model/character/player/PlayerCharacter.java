@@ -2,11 +2,11 @@ package com.github.correa.finalreality.model.character.player;
 
 import com.github.correa.finalreality.model.character.AbstractCharacter;
 import com.github.correa.finalreality.model.character.ICharacter;
-import java.util.Objects;
-import java.util.concurrent.BlockingQueue;
-
 import com.github.correa.finalreality.model.weapon.Weapon;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * A class that holds all the information of a single character of the game.
@@ -26,8 +26,8 @@ public class PlayerCharacter extends AbstractCharacter {
    *     the queue with the characters waiting for their turn
    * @param name
    *     the character's name
-   * @param healthPoints
-   *     the character's healthPoints
+   * @param hitPoints
+   *     the character's hitPoints
    * @param defensePoints
    *     the character's defensePoints
    * @param characterClass
@@ -36,9 +36,9 @@ public class PlayerCharacter extends AbstractCharacter {
 
   public PlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
       @NotNull String name,
-      int healthPoints, int defensePoints,
+      int hitPoints, int defensePoints,
       CharacterClass characterClass) {
-    super(turnsQueue, name, healthPoints, defensePoints);
+    super(turnsQueue, name, hitPoints, defensePoints);
     this.characterClass = characterClass;
   }
 
