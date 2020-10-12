@@ -1,10 +1,9 @@
 package com.github.correa.finalreality.model.character;
 
-import com.github.correa.finalreality.model.character.player.CharacterClass;
-import com.github.correa.finalreality.model.character.player.PlayerCharacter;
-import com.github.correa.finalreality.model.weapon.Weapon;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * An abstract class that holds the common behaviour of all the characters in the game.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Benjamín Correa>
+ * @author Benjamín Correa Karstulovic.
  */
 public abstract class AbstractCharacter implements ICharacter {
 
@@ -32,7 +31,16 @@ public abstract class AbstractCharacter implements ICharacter {
   }
 
   @Override
-  public void waitTurn() { }
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+    scheduledExecutor.schedule(this::addToQueue, this.getWeight() / 10, TimeUnit.SECONDS);
+
+  }
+
+  /**
+   * Return this character's weight.
+   */
+  public abstract int getWeight();
 
   @Override
   public void addToQueue() {
@@ -48,4 +56,5 @@ public abstract class AbstractCharacter implements ICharacter {
 
   @Override
   public int getDefensePoints() { return defensePoints; }
+
 }

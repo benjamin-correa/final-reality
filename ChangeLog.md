@@ -1,6 +1,14 @@
 ChangeLog
 =========
 
+Version 3.0
+-----------
+- (RC.1) Implemented missing tests (ensured 100% branch coverage)
+- (B.4) Updated the old tests (ensured)
+- (B.3) Implemented waitTurn() on the AbstractCharacter abstract class
+- (B.2) Removed waitTurn() on the PlayerCharacter and Enemy classes
+- (B.1) Added abstract method getWeight() on the AbstractCharacter abstract class
+
 Version 2.0
 -----------
 - (RC.1) Added and updated the methods descriptions

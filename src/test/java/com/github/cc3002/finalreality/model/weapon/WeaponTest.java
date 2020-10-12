@@ -1,35 +1,52 @@
 package com.github.cc3002.finalreality.model.weapon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import com.github.correa.finalreality.model.character.Enemy;
+import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.weapon.Weapon;
 import com.github.correa.finalreality.model.weapon.WeaponType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.BlockingQueue;
+
 class WeaponTest {
 
   private static final String AXE_NAME = "Test Axe";
+  private static final String AXE2_NAME = "Test Axe2";
+  private static final String AXE3_NAME = "Test Axe3";
   private static final String STAFF_NAME = "Test Staff";
   private static final String SWORD_NAME = "Test Sword";
   private static final String BOW_NAME = "Test Bow";
   private static final String KNIFE_NAME = "Test Knife";
   private static final int DAMAGE = 15;
   private static final int SPEED = 10;
+  protected BlockingQueue<ICharacter> turns;
 
   private Weapon testAxe;
+  private Weapon testAxe2;
+  private Weapon testAxe3;
   private Weapon testStaff;
   private Weapon testSword;
+  private Weapon testSword2;
   private Weapon testBow;
   private Weapon testKnife;
+  private Enemy testEnemy;
 
   @BeforeEach
   void setUp() {
     testAxe = new Weapon(AXE_NAME, DAMAGE, SPEED, WeaponType.AXE);
+    testAxe2 = new Weapon(AXE2_NAME, 10, 10, WeaponType.AXE);
+    testAxe3 = new Weapon(AXE3_NAME, 15, 15, WeaponType.AXE);
     testStaff = new Weapon(STAFF_NAME, DAMAGE, SPEED, WeaponType.STAFF);
     testSword = new Weapon(SWORD_NAME, DAMAGE, SPEED, WeaponType.SWORD);
+    testSword2 = new Weapon(AXE_NAME, DAMAGE, SPEED, WeaponType.SWORD);
     testBow = new Weapon(BOW_NAME, DAMAGE, SPEED, WeaponType.BOW);
     testKnife = new Weapon(KNIFE_NAME, DAMAGE, SPEED, WeaponType.KNIFE);
+    testEnemy = new Enemy("Test", 10, 5, turns, 10);
+
   }
 
   @Test
@@ -50,5 +67,10 @@ class WeaponTest {
     assertEquals(expectedBow.hashCode(), testBow.hashCode());
     assertEquals(expectedKnife, testKnife);
     assertEquals(expectedKnife.hashCode(), testKnife.hashCode());
+    assertNotEquals(expectedAxe, testSword);
+    assertNotEquals(expectedAxe, testEnemy);
+    assertNotEquals(expectedAxe, testAxe2);
+    assertNotEquals(expectedAxe, testAxe3);
+    assertNotEquals(expectedAxe, testSword2);
   }
 }

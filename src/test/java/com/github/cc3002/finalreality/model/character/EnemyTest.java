@@ -12,15 +12,19 @@ class EnemyTest extends AbstractCharacterTest {
 
   @BeforeEach
   void setUp() {
-    basicSetUp();
-    testCharacters.add(new Enemy(ENEMY_NAME, 10, turns));
+    super.basicSetUp();
+    testEnemy.add(new Enemy(ENEMY_NAME, 10, 5,  turns, 10));
+    testPlayerCharacters.add(new PlayerCharacter(turns, "Test", 10, 4, CharacterClass.WHITE_MAGE));
   }
 
   @Test
   void constructorTest() {
-    checkConstruction(new Enemy(ENEMY_NAME, 10, turns),
-        testCharacters.get(0),
-        new Enemy(ENEMY_NAME, 11, turns),
-        new PlayerCharacter(ENEMY_NAME, turns, CharacterClass.THIEF));
+    checkEnemyConstruction(new Enemy(ENEMY_NAME, 10, 5, turns, 10),
+        testEnemy.get(0),
+        new Enemy(ENEMY_NAME, 10, 5, turns, 5),
+        new Enemy(ENEMY_NAME, 5, 5, turns, 10),
+        new Enemy(ENEMY_NAME, 10, 3, turns, 10),
+        new PlayerCharacter(turns, ENEMY_NAME, 10, 5, CharacterClass.WHITE_MAGE));
   }
+  
 }

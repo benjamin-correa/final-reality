@@ -8,7 +8,7 @@ import com.github.correa.finalreality.model.weapon.Weapon;
  * A character can be controlled by the player or by the CPU (an enemy).
  *
  * @author Ignacio Slater Muñoz.
- * @author <Benjamín Correa>
+ * @author Benjamín Correa Karstulovic.
  */
 public interface ICharacter {
 

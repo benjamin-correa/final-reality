@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * Set of tests for the {@code GameCharacter} class.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Your name>
+ * @author Benjamín Correa Karstulovic.
  * @see PlayerCharacter
  */
 class PlayerCharacterTest extends AbstractCharacterTest {
@@ -45,9 +45,10 @@ class PlayerCharacterTest extends AbstractCharacterTest {
 
     for (var characterClass :
         characterNames.keySet()) {
-      testCharacters.add(
-          new PlayerCharacter(characterNames.get(characterClass), turns, characterClass));
+      testPlayerCharacters.add(
+          new PlayerCharacter(turns, characterNames.get(characterClass), 10, 4, characterClass));
     }
+    testEnemy.add(new Enemy("GOBLIN", 10, 5,  turns, 10));
   }
 
   /**
@@ -55,18 +56,16 @@ class PlayerCharacterTest extends AbstractCharacterTest {
    */
   @Test
   void constructorTest() {
-    var enemy = new Enemy("Enemy", 10, turns);
     for (var character :
-        testCharacters) {
+        testPlayerCharacters) {
       var characterClass = character.getCharacterClass();
       var characterName = characterNames.get(characterClass);
-      checkConstruction(new PlayerCharacter(characterName, turns, characterClass),
+      checkPlayerConstruction(new PlayerCharacter(turns, characterName, 10, 4, characterClass),
           character,
-          new PlayerCharacter("Test", turns, characterClass),
-          new PlayerCharacter(characterName, turns,
+          new PlayerCharacter(turns, "Test", 10, 4, characterClass),
+          new PlayerCharacter(turns, characterName, 10, 4,
               characterClass == CharacterClass.THIEF ? CharacterClass.BLACK_MAGE
                   : CharacterClass.THIEF));
-      assertNotEquals(character, enemy);
     }
 
   }
@@ -74,7 +73,7 @@ class PlayerCharacterTest extends AbstractCharacterTest {
   @Test
   void equipWeaponTest() {
     for (var character :
-        testCharacters) {
+        testPlayerCharacters) {
       assertNull(character.getEquippedWeapon());
       character.equip(testWeapon);
       assertEquals(testWeapon, character.getEquippedWeapon());
