@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  * A class that holds all the information of a weapon.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Benjamín Correa>
+ * @author Benjamín Correa Karstulovic.
  */
 public class Weapon {
 

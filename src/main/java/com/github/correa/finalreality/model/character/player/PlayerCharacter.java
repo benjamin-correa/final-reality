@@ -4,9 +4,6 @@ import com.github.correa.finalreality.model.character.AbstractCharacter;
 import com.github.correa.finalreality.model.character.ICharacter;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.Executors;
 
 import com.github.correa.finalreality.model.weapon.Weapon;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +12,13 @@ import org.jetbrains.annotations.NotNull;
  * A class that holds all the information of a single character of the game.
  *
  * @author Ignacio Slater Muñoz.
- * @author <Benjamín Correa>
+ * @author Benjamín Correa Karstulovic.
  */
 public class PlayerCharacter extends AbstractCharacter {
 
   private final CharacterClass characterClass;
   private Weapon equippedWeapon = null;
-  private ScheduledExecutorService scheduledExecutor;
+
   
   /**
    * Creates a new character.
@@ -60,17 +57,14 @@ public class PlayerCharacter extends AbstractCharacter {
     return equippedWeapon;
   }
 
+  @Override
+  public int getWeight() {return this.equippedWeapon.getWeight();  }
+
   /**
    * Returns this character's class.
    */
   public CharacterClass getCharacterClass() {
     return characterClass;
-  }
-
-  @Override
-  public void waitTurn(){
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    scheduledExecutor.schedule(this::addToQueue, equippedWeapon.getWeight() / 10, TimeUnit.SECONDS);
   }
 
   @Override
@@ -90,4 +84,6 @@ public class PlayerCharacter extends AbstractCharacter {
     return getCharacterClass() == that.getCharacterClass()
         && getName().equals(that.getName());
   }
+
+
 }

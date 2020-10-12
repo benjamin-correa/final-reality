@@ -1,11 +1,7 @@
 package com.github.correa.finalreality.model.character;
 
-import com.github.correa.finalreality.model.character.player.CharacterClass;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -13,12 +9,11 @@ import org.jetbrains.annotations.NotNull;
  * A class that holds all the information of a single enemy of the game.
  *
  * @author Ignacio Slater Muñoz
- * @author <Benjamín Correa>
+ * @author Benjamín Correa Karstulovic.
  */
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
-  private ScheduledExecutorService scheduledExecutor;
 
   /**
    * Creates a new character.
@@ -41,18 +36,15 @@ public class Enemy extends AbstractCharacter {
     this.weight = weight;
   }
 
-  /**
-   * Returns the weight of this enemy.
-   */
+  @Override
   public int getWeight() {
     return weight;
   }
 
   @Override
-  public void waitTurn(){
-    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    var enemy = (Enemy) this;
-    scheduledExecutor.schedule(this::addToQueue, enemy.getWeight() / 10, TimeUnit.SECONDS);
+  public int hashCode() {
+    int hash = Objects.hash(getWeight(), getDefensePoints(), getHealthPoints());
+    return hash;
   }
 
   @Override
@@ -64,11 +56,9 @@ public class Enemy extends AbstractCharacter {
       return false;
     }
     final Enemy enemy = (Enemy) o;
-    return getWeight() == enemy.getWeight();
+    return getWeight() == enemy.getWeight()
+        && getDefensePoints() == enemy.getDefensePoints()
+        && getHealthPoints() == enemy.getHealthPoints();
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(getWeight());
-  }
 }
