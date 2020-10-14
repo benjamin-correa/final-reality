@@ -33,7 +33,7 @@ This game is following the model-view-controller software design pattern and the
               
             2. Mage _player classes_.
             
-                * This classes implements _mana points_ and _spells_.
+                * This classes implements _mana points_.
                 
             3. Both _player classes_ can equip weapons.
             
@@ -55,17 +55,8 @@ This game is following the model-view-controller software design pattern and the
             * The _player characters_ weight is calculated by their weapon weight.
             * Once a character attack, immediately enters to the queue.
             * The minimum wait time on the queue is (weight/10).
-             
-    3. Created the _player party_ and _enemy party_ classes.
-    
-        * The _player party_ goes up to 4 members.
-        * The _enemy party_ can have unlimited _enemies_ in it.
-        
-    4. Created the _spell class_.
-    
-        * Implements the different _spells_.
-        
-    5. Created the _inventory class_.
+          
+    3. Created the _inventory class_.
     
         * This class holds up all the _player_ weapons
         
