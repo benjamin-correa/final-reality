@@ -1,11 +1,15 @@
 package com.github.cc3002.finalreality.model.character;
 
 import com.github.correa.finalreality.model.character.Enemy;
-import com.github.correa.finalreality.model.character.player.CharacterClass;
-import com.github.correa.finalreality.model.character.player.PlayerCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Set of tests for the Enemy class.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author Benjamín Correa Karstulovic.
+ */
 class EnemyTest extends AbstractCharacterTest {
 
   private static final String ENEMY_NAME = "Goblin";
@@ -14,17 +18,18 @@ class EnemyTest extends AbstractCharacterTest {
   void setUp() {
     super.basicSetUp();
     testEnemy.add(new Enemy(ENEMY_NAME, 10, 5,  turns, 10));
-    testPlayerCharacters.add(new PlayerCharacter(turns, "Test", 10, 4, CharacterClass.WHITE_MAGE));
   }
 
+  /**
+   * Checks that the enemy class constructor and equals method works properly.
+   */
   @Test
   void constructorTest() {
     checkEnemyConstruction(new Enemy(ENEMY_NAME, 10, 5, turns, 10),
         testEnemy.get(0),
         new Enemy(ENEMY_NAME, 10, 5, turns, 5),
-        new Enemy(ENEMY_NAME, 5, 5, turns, 10),
         new Enemy(ENEMY_NAME, 10, 3, turns, 10),
-        new PlayerCharacter(turns, ENEMY_NAME, 10, 5, CharacterClass.WHITE_MAGE));
+        new Enemy("Test", 10, 5, turns, 10));
   }
   
 }

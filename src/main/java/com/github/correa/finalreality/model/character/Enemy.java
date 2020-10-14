@@ -16,17 +16,17 @@ public class Enemy extends AbstractCharacter {
   private final int weight;
 
   /**
-   * Creates a new character.
+   * Creates a new enemy character.
    * @param turnsQueue
-   *     the queue with the characters waiting for their turn
+   *  the queue with the characters waiting for their turn.
    * @param name
-   *     the enemy's name
+   *  the enemy's name.
    * @param hitPoints
-   *     the enemy's hitPoints
+   *  the enemy's hitPoints.
    * @param defensePoints
-   *     the enemy's defensePoints
+   *  the enemy's defensePoints.
    * @param weight
-   *     the weight of this enemy
+   *   the weight of this enemy.
    */
   public Enemy(@NotNull final String name,
       int hitPoints, int defensePoints,
@@ -43,8 +43,7 @@ public class Enemy extends AbstractCharacter {
 
   @Override
   public int hashCode() {
-    int hash = Objects.hash(getWeight(), getDefensePoints(), getHitPoints());
-    return hash;
+    return Objects.hash(getWeight(), getDefensePoints(), getName());
   }
 
   @Override
@@ -55,10 +54,10 @@ public class Enemy extends AbstractCharacter {
     if (!(o instanceof Enemy)) {
       return false;
     }
-    final Enemy enemy = (Enemy) o;
-    return getWeight() == enemy.getWeight()
-        && getDefensePoints() == enemy.getDefensePoints()
-        && getHitPoints() == enemy.getHitPoints();
+    final Enemy that = (Enemy) o;
+    return getWeight() == that.getWeight()
+        && getDefensePoints() == that.getDefensePoints()
+        && getName().equals(that.getName());
   }
 
 }

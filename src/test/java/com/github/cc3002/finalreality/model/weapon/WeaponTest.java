@@ -8,6 +8,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Set of tests for the Weapon class.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author Benjamín Correa Karstulovic.
+ */
 class WeaponTest {
 
   private static final String AXE_NAME = "Test Axe";
@@ -41,6 +47,9 @@ class WeaponTest {
     testKnife = new Weapon(KNIFE_NAME, DAMAGE, SPEED, WeaponType.KNIFE);
   }
 
+  /**
+   * Checks that the weapon class constructor and equals method works properly.
+   */
   @Test
   void constructorTest() {
     var expectedAxe = new Weapon(AXE_NAME, DAMAGE, SPEED, WeaponType.AXE);

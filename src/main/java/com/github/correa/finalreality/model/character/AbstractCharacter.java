@@ -17,10 +17,21 @@ public abstract class AbstractCharacter implements ICharacter {
 
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
-  private int hitPoints;
-  private int defensePoints;
+  private final int hitPoints;
+  private final int defensePoints;
   private ScheduledExecutorService scheduledExecutor;
 
+  /**
+   * Creates a new Character.
+   * @param turnsQueue
+   *  the queue with the characters waiting for their turn.
+   * @param name
+   *  the character's name.
+   * @param hitPoints
+   *  the character's hit points.
+   * @param defensePoints
+   *  the character's defense points.
+   */
   protected AbstractCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
       @NotNull String name, int hitPoints, int defensePoints) {
     this.turnsQueue = turnsQueue;

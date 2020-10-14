@@ -1,4 +1,4 @@
-package com.github.correa.finalreality.model.Party;
+package com.github.correa.finalreality.model.party;
 
 import com.github.correa.finalreality.model.character.Enemy;
 
@@ -6,19 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A class that has all the enemies in the party.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author Benjamín Correa Karstulovic.
+ */
 public class EnemyParty {
 
     private final List<Enemy> enemyParty = new ArrayList<>();
 
     /**
-     *Adds a Enemy to the EnemyParty
+     *Adds a Enemy to the EnemyParty.
      */
     public void addEnemy(Enemy enemy) {
         enemyParty.add(enemy);
     }
 
     /**
-     * Return's the actual EnemyParty
+     * Return's the actual EnemyParty.
      */
     public List<Enemy> getEnemyParty() {
         return List.copyOf(enemyParty);

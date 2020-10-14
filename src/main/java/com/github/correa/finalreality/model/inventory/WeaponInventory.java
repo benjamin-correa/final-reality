@@ -1,4 +1,4 @@
-package com.github.correa.finalreality.model.Inventory;
+package com.github.correa.finalreality.model.inventory;
 
 import com.github.correa.finalreality.model.weapon.Weapon;
 
@@ -6,13 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A class that has all the weapons of the player.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author Benjamín Correa Karstulovic.
+ */
+
 public class WeaponInventory {
+
   private final List<Weapon> weaponInventory = new ArrayList<>();
 
+  /**
+   *Adds a Weapon to the WeaponInventory.
+   */
   public void addWeapon(Weapon weapon){
     weaponInventory.add(weapon);
   }
 
+  /**
+   * Return's the actual WeaponInventory.
+   */
   public List<Weapon> getWeaponInventory() {
     return List.copyOf(weaponInventory);
   }

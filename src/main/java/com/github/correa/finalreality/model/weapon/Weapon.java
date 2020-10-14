@@ -1,8 +1,6 @@
 package com.github.correa.finalreality.model.weapon;
 
 import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A class that holds all the information of a weapon.
@@ -30,18 +28,30 @@ public class Weapon {
     this.type = type;
   }
 
+  /**
+   * Returns this weapon's name.
+   */
   private String getName() {
     return name;
   }
 
+  /**
+   * Returns this weapon's damage.
+   */
   private int getDamage() {
     return damage;
   }
 
+  /**
+   * Returns this weapon's weight.
+   */
   public int getWeight() {
     return weight;
   }
 
+  /**
+   * Returns this weapon's type.
+   */
   private WeaponType getType() {
     return type;
   }

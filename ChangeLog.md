@@ -3,7 +3,10 @@ ChangeLog
 
 Version 4.0
 -----------
-- ``RC.1`` Implemented missing tests
+- ``RC.1`` Added and updated the methods and test descriptions
+- ``B.6`` Implementation and testing of Spell class (ensured 100% coverage)
+- ``B.5`` Implementation and testing of commonclasses and mageclasses (ensured 100% branch coverage)
+- ``B.4`` Implementation and testing of AbstractPlayerCharacter (ensured 100% branch coverage)
 - ``B.3`` Implementation and testing of WeaponInventory class (ensured 100% branch coverage)
 - ``B.2`` Implementation and testing of EnemyParty class(ensured 100% branch coverage)
 - ``B.1`` Implementation and testing of PlayerParty class(ensured 100% branch coverage)
