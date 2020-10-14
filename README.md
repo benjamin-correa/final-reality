@@ -35,7 +35,7 @@ This game is following the model-view-controller software design pattern and the
             
                 * This classes implements _mana points_.
                 
-            3. Both _player classes_ can equip weapons.
+            3. Both _player classes_ can equip weapons (to be implemented).
             
                 * _Thief_ can equip a sword, knife or a bow.
                 * _Knight_ can equip a sword, axe or knife.
