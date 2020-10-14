@@ -1,8 +1,5 @@
 package com.github.correa.finalreality.model.character;
 
-import com.github.correa.finalreality.model.character.player.CharacterClass;
-import com.github.correa.finalreality.model.weapon.Weapon;
-
 /**
  * This represents a character from the game.
  * A character can be controlled by the player or by the CPU (an enemy).
@@ -29,9 +26,9 @@ public interface ICharacter {
   String getName();
 
   /**
-   * Returns this character health points.
+   * Returns this character hit points.
    */
-  int getHealthPoints();
+  int getHitPoints();
 
   /**
    * Returns this character defense points.

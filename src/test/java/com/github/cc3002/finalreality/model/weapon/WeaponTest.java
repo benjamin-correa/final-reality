@@ -1,17 +1,19 @@
 package com.github.cc3002.finalreality.model.weapon;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import com.github.correa.finalreality.model.character.Enemy;
-import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.weapon.Weapon;
 import com.github.correa.finalreality.model.weapon.WeaponType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.BlockingQueue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+/**
+ * Set of tests for the Weapon class.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author Benjamín Correa Karstulovic.
+ */
 class WeaponTest {
 
   private static final String AXE_NAME = "Test Axe";
@@ -23,7 +25,6 @@ class WeaponTest {
   private static final String KNIFE_NAME = "Test Knife";
   private static final int DAMAGE = 15;
   private static final int SPEED = 10;
-  protected BlockingQueue<ICharacter> turns;
 
   private Weapon testAxe;
   private Weapon testAxe2;
@@ -33,7 +34,6 @@ class WeaponTest {
   private Weapon testSword2;
   private Weapon testBow;
   private Weapon testKnife;
-  private Enemy testEnemy;
 
   @BeforeEach
   void setUp() {
@@ -45,10 +45,11 @@ class WeaponTest {
     testSword2 = new Weapon(AXE_NAME, DAMAGE, SPEED, WeaponType.SWORD);
     testBow = new Weapon(BOW_NAME, DAMAGE, SPEED, WeaponType.BOW);
     testKnife = new Weapon(KNIFE_NAME, DAMAGE, SPEED, WeaponType.KNIFE);
-    testEnemy = new Enemy("Test", 10, 5, turns, 10);
-
   }
 
+  /**
+   * Checks that the weapon class constructor and equals method works properly.
+   */
   @Test
   void constructorTest() {
     var expectedAxe = new Weapon(AXE_NAME, DAMAGE, SPEED, WeaponType.AXE);
@@ -68,9 +69,9 @@ class WeaponTest {
     assertEquals(expectedKnife, testKnife);
     assertEquals(expectedKnife.hashCode(), testKnife.hashCode());
     assertNotEquals(expectedAxe, testSword);
-    assertNotEquals(expectedAxe, testEnemy);
     assertNotEquals(expectedAxe, testAxe2);
     assertNotEquals(expectedAxe, testAxe3);
     assertNotEquals(expectedAxe, testSword2);
+    assertNotEquals(testAxe, new Object());
   }
 }
