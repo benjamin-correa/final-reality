@@ -1,14 +1,14 @@
 package com.github.correa.finalreality.model.character.player.classes.mageclasses;
 
 import com.github.correa.finalreality.model.character.ICharacter;
-import com.github.correa.finalreality.model.character.player.CharacterClass;
-import com.github.correa.finalreality.model.character.player.classes.Mage;
+import com.github.correa.finalreality.model.character.player.classes.AbstractMage;
+import com.github.correa.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
-public class BlackMage extends Mage {
+public class BlackMage extends AbstractMage {
 
   /**
    * Creates a new Black Mage class character.
@@ -22,9 +22,23 @@ public class BlackMage extends Mage {
    * @param defensePoints
    *  the Black Mage's defense points.
    */
-  public BlackMage(@NotNull BlockingQueue<ICharacter> turnsQueue,
-      @NotNull String name, int hitPoints, int defensePoints, int manaPoints) {
-    super(turnsQueue, name, hitPoints, defensePoints, manaPoints, CharacterClass.BLACK_MAGE);
+  public BlackMage(
+      @NotNull BlockingQueue<ICharacter> turnsQueue,
+      @NotNull String name, int hitPoints,
+      int defensePoints, int manaPoints) {
+    super(
+        turnsQueue, name, hitPoints,
+        defensePoints, manaPoints);
+  }
+
+  @Override
+  public void attack(final @NotNull ICharacter opponent){
+    opponent.attackedByBlackMage(this);
+  }
+
+  @Override
+  public void equip(final @NotNull IWeapon weapon) {
+    weapon.equippedByBlackMage(this);
   }
 
   @Override

@@ -2,14 +2,13 @@ package com.github.correa.finalreality.model.character.player.classes.commonclas
 
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.player.AbstractPlayerCharacter;
-import com.github.correa.finalreality.model.character.player.CharacterClass;
+import com.github.correa.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
 public class Engineer extends AbstractPlayerCharacter {
-
 
   /**
    * Creates a new Engineer class character.
@@ -23,9 +22,22 @@ public class Engineer extends AbstractPlayerCharacter {
    * @param defensePoints
    *  the Engineer's defense points.
    */
-  public Engineer(@NotNull BlockingQueue<ICharacter> turnsQueue,
-      @NotNull String name, int hitPoints, int defensePoints) {
-    super(turnsQueue, name, hitPoints, defensePoints, CharacterClass.ENGINEER);
+  public Engineer(
+      @NotNull BlockingQueue<ICharacter> turnsQueue,
+      @NotNull String name, int hitPoints,
+      int defensePoints) {
+    super(turnsQueue, name,
+        hitPoints, defensePoints);
+  }
+
+  @Override
+  public void attack(final @NotNull ICharacter opponent){
+    opponent.attackedByEngineer(this);
+  }
+
+  @Override
+  public void equip(final @NotNull IWeapon weapon) {
+    weapon.equippedByEngineer(this);
   }
 
   @Override

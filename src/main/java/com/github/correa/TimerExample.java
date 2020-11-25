@@ -2,8 +2,7 @@ package com.github.correa;
 
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Thief;
-import com.github.correa.finalreality.model.weapon.Weapon;
-import com.github.correa.finalreality.model.weapon.WeaponType;
+import com.github.correa.finalreality.model.weapon.commonweapons.Knife;
 
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
@@ -19,7 +18,7 @@ public class TimerExample {
     Random rng = new Random();
     for (int i = 0; i < 10; i++) {
       // Gives a random speed to each character to generate different waiting times
-      var weapon = new Weapon("", 0, rng.nextInt(50), WeaponType.KNIFE);
+      var weapon = new Knife("", 0, rng.nextInt(50));
       var character = new Thief(queue, Integer.toString(i), 30, 4);
       character.equip(weapon);
       character.waitTurn();

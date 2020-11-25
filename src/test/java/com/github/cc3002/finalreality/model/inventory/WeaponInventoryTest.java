@@ -1,8 +1,7 @@
 package com.github.cc3002.finalreality.model.inventory;
 
 import com.github.correa.finalreality.model.inventory.WeaponInventory;
-import com.github.correa.finalreality.model.weapon.Weapon;
-import com.github.correa.finalreality.model.weapon.WeaponType;
+import com.github.correa.finalreality.model.weapon.commonweapons.Axe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Ignacio Slater Muñoz.
  * @author Benjamín Correa Karstulovic.
  */
-public class WeaponWeaponInventoryTest {
+public class WeaponInventoryTest {
   private WeaponInventory testWeaponInventory;
 
   @BeforeEach
@@ -41,7 +40,7 @@ public class WeaponWeaponInventoryTest {
     assertTrue(testWeaponInventory.getWeaponInventory().isEmpty());
     for (int i= 0; i < 10; i++) {
       testWeaponInventory.addWeapon(
-          new Weapon("Test weapon", 10, 10, WeaponType.AXE));
+          new Axe("Test weapon", 10, 10));
       assertEquals(i+1, testWeaponInventory.getWeaponInventory().size());
     }
   }

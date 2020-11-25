@@ -1,6 +1,11 @@
 ChangeLog
 =========
 
+Version 5.0
+-----------
+- ``B.2`` Updated AbstractPlayerCharacterTest
+- ``B.1`` Implementation and testing of commonweapons and magicweapons (ensured 100% branch coverage)
+
 Version 4.0
 -----------
 - ``RC.1`` Added and updated the methods and test descriptions
