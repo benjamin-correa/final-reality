@@ -2,8 +2,7 @@ package com.github.correa.finalreality.model.character.player;
 
 import com.github.correa.finalreality.model.character.AbstractCharacter;
 import com.github.correa.finalreality.model.character.ICharacter;
-import com.github.correa.finalreality.model.character.IPlayerCharacter;
-import com.github.correa.finalreality.model.weapon.Weapon;
+import com.github.correa.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.BlockingQueue;
@@ -16,8 +15,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public abstract class AbstractPlayerCharacter extends AbstractCharacter implements IPlayerCharacter {
 
-  private final CharacterClass characterClass;
-  private Weapon equippedWeapon = null;
+  private IWeapon equippedWeapon;
 
   /**
    * Creates a new player character.
@@ -29,28 +27,32 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    *  the player character's hit points.
    * @param defensePoints
    *  the player character's defense points.
-   * @param characterClass
-   *  the player character's class.
    */
-  public AbstractPlayerCharacter(@NotNull BlockingQueue<ICharacter> turnsQueue,
-                                 @NotNull String name,
-                                 int hitPoints, int defensePoints,
-                                 CharacterClass characterClass) {
+  public AbstractPlayerCharacter(
+      @NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name,
+      int hitPoints, int defensePoints) {
     super(turnsQueue, name, hitPoints, defensePoints);
-    this.characterClass = characterClass;
+    this.equippedWeapon = null;
   }
 
   @Override
-  public void equip(Weapon weapon) { this.equippedWeapon = weapon; }
+  public int getAttack() {
+    return this.getEquippedWeapon().getDamage();
+  }
 
   @Override
-  public Weapon getEquippedWeapon() { return equippedWeapon; }
+  public abstract void equip(IWeapon weapon);
+
+  public void equippedBy (IWeapon weapon) {
+    if (this.isAlive() == true){
+      this.equippedWeapon = weapon;
+    }
+  }
+
+  @Override
+  public IWeapon getEquippedWeapon() { return equippedWeapon; }
 
   @Override
   public int getWeight() {return this.equippedWeapon.getWeight();  }
 
-  @Override
-  public CharacterClass getCharacterClass() {
-    return characterClass;
-  }
 }

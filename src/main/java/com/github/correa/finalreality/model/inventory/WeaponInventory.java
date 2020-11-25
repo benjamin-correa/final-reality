@@ -1,6 +1,6 @@
 package com.github.correa.finalreality.model.inventory;
 
-import com.github.correa.finalreality.model.weapon.Weapon;
+import com.github.correa.finalreality.model.weapon.IWeapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +15,19 @@ import java.util.Objects;
 
 public class WeaponInventory {
 
-  private final List<Weapon> weaponInventory = new ArrayList<>();
+  private final List<IWeapon> weaponInventory = new ArrayList<>();
 
   /**
    *Adds a Weapon to the WeaponInventory.
    */
-  public void addWeapon(Weapon weapon){
+  public void addWeapon(IWeapon weapon){
     weaponInventory.add(weapon);
   }
 
   /**
    * Return's the actual WeaponInventory.
    */
-  public List<Weapon> getWeaponInventory() {
+  public List<IWeapon> getWeaponInventory() {
     return List.copyOf(weaponInventory);
   }
 
