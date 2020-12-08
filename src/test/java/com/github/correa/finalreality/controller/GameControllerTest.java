@@ -375,4 +375,17 @@ class GameControllerTest {
     assertTrue(
         gameController.isQueueEmpty());
   }
+
+  @Test
+  void turnTest() {
+    createEnemies();
+    gameController.waitTurn(
+        gameController.getEnemies().get(0));
+    gameController.waitQueue();
+    gameController.beginTurn();
+    var ch = gameController.getCharacterPlaying();
+    assertEquals(testEnemy, ch);
+    gameController.endTurn();
+    assertNull(gameController.getCharacterPlaying());
+  }
 }

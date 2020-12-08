@@ -49,10 +49,12 @@ public class GameController {
       new LinkedBlockingQueue<>();
   private int enemiesKilled;
   private int playersKilled;
+  private ICharacter characterPlaying;
 
   public GameController() {
     this.enemiesKilled = 0;
     this.playersKilled = 0;
+    this.characterPlaying = null;
   }
 
   /**
@@ -309,5 +311,25 @@ public class GameController {
     do {
       done.set(!queue.isEmpty());
     } while (!done.get());
+  }
+
+  public ICharacter getCharacterPlaying() {
+    return characterPlaying;
+  }
+
+  /**
+   * Begins a character turn.
+   */
+  public void beginTurn() {
+    characterPlaying = getFistFromQueue();
+  }
+
+  /**
+   * Ends a character turn.
+   */
+  public void endTurn() {
+    removeFromQueue(characterPlaying);
+    waitTurn(characterPlaying);
+    characterPlaying = null;
   }
 }
