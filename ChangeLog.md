@@ -1,9 +1,19 @@
 ChangeLog
 =========
 
+Version 6.0
+-----------
+
+- ``RC.1`` Added and updated methods descriptions
+- ``B.4`` Implementation and testing of unequip method (ensured 100% branch coverage)
+- ``B.3`` Added test of equip and attack methods (ensured 100% branch coverage)
+- ``B.2`` Implemented equip method with double dispatch
+- ``B.1`` Implemented attack method with double dispatch
+
 Version 5.0
 -----------
-- ``B.2`` Updated AbstractPlayerCharacterTest
+- ``RC.1`` Added descriptions and missing test (ensured 100% branch coverage)
+- ``B.2`` Updated AbstractPlayerCharacterTest (ensured 100% branch coverage)
 - ``B.1`` Implementation and testing of commonweapons and magicweapons (ensured 100% branch coverage)
 
 Version 4.0

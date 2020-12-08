@@ -1,5 +1,7 @@
 package com.github.cc3002.finalreality.model.character;
 
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
@@ -62,6 +64,9 @@ public abstract class AbstractCharacterTest {
   @Test
   public abstract void constructorTest();
 
+  /**
+   * Checks the construction of the ICharacters
+   */
   protected void checkCharacterConstruction(
       final ICharacter expectedCharacter,
       final ICharacter testEqualCharacter,
@@ -74,7 +79,21 @@ public abstract class AbstractCharacterTest {
   }
 
   /**
-   * Checks if isAlive works correctly.
+   * Checks if setHitPoints works properly.
+   */
+  @Test
+  protected void checkSetHitPointsTest () {
+    var expectedHP = testCharacter.getMaxHitPoints();
+    testCharacter.setHitPoints(expectedHP + expectedHP);
+    assertEquals(expectedHP, testCharacter.getHitPoints());
+    testCharacter.setHitPoints(expectedHP - expectedHP);
+    assertEquals(0, testCharacter.getHitPoints());
+    testCharacter.setHitPoints(1);
+    assertEquals(1, testCharacter.getHitPoints());
+  }
+
+  /**
+   * Checks if isAlive works properly.
    */
   @Test
   protected void checkIsAliveTest() {
@@ -83,10 +102,32 @@ public abstract class AbstractCharacterTest {
     assertFalse(testCharacter.isAlive());
   }
 
+  /**
+   * Checks if the seed works correctly.
+   */
+  @Test
+  public void testSeed() {
+    long expectedSeed = 11;
+    testCharacter.setSeed(expectedSeed);
+    assertEquals(expectedSeed, testCharacter.getSeed());
+  }
+
+  /**
+   * Basic set up for testing.
+   */
+  protected void basicSetUp() {
+    seed = new Random().nextLong();
+    turns = new LinkedBlockingQueue<>();
+  }
+
+  /**
+   * Checks if attack method works properly.
+   */
+  @Test
   protected abstract void attackTest();
 
   /**
-   * Checks if the attack method works properly
+   * Checks if the attack method works properly.
    */
   protected void checkAttack(final @NotNull ICharacter opponent) {
     opponent.setSeed(seed);
@@ -104,48 +145,59 @@ public abstract class AbstractCharacterTest {
     }
   }
 
+  /**
+   * Get info test.
+   */
   @Test
-  public void testSeed() {
-    long expectedSeed = 11;
-    testCharacter.setSeed(expectedSeed);
-    assertEquals(expectedSeed, testCharacter.getSeed());
+  protected abstract void getInfoTest();
+
+  /**
+   * Checks if the get info method works properly
+   */
+  protected void checkGetInfo(ICharacter character) {
+    var testInfo = testCharacter.getInfo();
+    assertEquals(
+        testCharacter.getHitPoints(),
+        Integer.parseInt(testInfo.get(Stats.HP)));
+    assertEquals(
+        testCharacter.getDefensePoints(),
+        Integer.parseInt(testInfo.get(Stats.DEF)));
+    assertEquals(
+        testCharacter.getName(),
+        testInfo.get(Stats.NAME));
+    assertEquals(
+        testCharacter.getWeight(),
+        Integer.parseInt(testInfo.get(Stats.WEIGHT)));
+    assertEquals(
+        testCharacter.isAlive(),
+        Boolean.valueOf(testInfo.get(Stats.IS_ALIVE)));
   }
 
-  protected void basicSetUp() {
-    seed = new Random().nextLong();
-    turns = new LinkedBlockingQueue<>();
-  }
-
+  /**
+   * Returns a character for testing.
+   */
   protected ICharacter getCharacter(CharacterType characterType) {
-    int BASE_TEST_HP = 15;
-    int BASE_TEST_DP = 5;
-    if (characterType == CharacterType.ENEMY) {
-      return new Enemy(
-          "Goblin", BASE_TEST_HP, 6, BASE_TEST_DP, turns, 10);
-    }
-    else if (characterType == CharacterType.ENGINEER) {
-      return new Engineer(
-          turns, "Cid", BASE_TEST_HP, BASE_TEST_DP);
-    }
-    else if (characterType == CharacterType.KNIGHT) {
-      return new Knight(
-          turns, "Adelbert", BASE_TEST_HP, BASE_TEST_DP);
-    }
-    else if (characterType == CharacterType.THIEF) {
-      return new Thief(
-          turns, "Zidane", BASE_TEST_HP, BASE_TEST_DP);
-    }
-    else if (characterType == CharacterType.BLACK_MAGE) {
-      return new BlackMage(
-          turns, "Vivi", BASE_TEST_HP, BASE_TEST_DP, 20);
-    }
-    else {
-      return new WhiteMage(
-          turns, "Eiko", BASE_TEST_HP, BASE_TEST_DP, 20);
-    }
+    int TEST_HP = new Random(seed).nextInt(99) + 1;
+    int TEST_DP = new Random(seed). nextInt(50);
+    int TEST_DMG = new Random(seed).nextInt(99) + 1;
+    return switch (characterType) {
+      case ENEMY -> new Enemy(
+          "Goblin", TEST_HP, TEST_DMG,
+          TEST_DP, turns, 10);
+      case ENGINEER -> new Engineer(
+          turns, "Cid", TEST_HP, TEST_DP);
+      case KNIGHT -> new Knight(
+          turns, "Adelbert", TEST_HP, TEST_DP);
+      case THIEF -> new Thief(
+          turns, "Zidane", TEST_HP, TEST_DP);
+      case BLACK_MAGE -> new BlackMage(
+          turns, "Vivi", TEST_HP, TEST_DP,
+          20);
+      case WHITE_MAGE -> new WhiteMage(
+          turns, "Eiko", TEST_HP, TEST_DP,
+          20);
+    };
   }
 
-  protected enum CharacterType {
-    ENEMY, KNIGHT, ENGINEER, THIEF, BLACK_MAGE, WHITE_MAGE
-  }
+
 }

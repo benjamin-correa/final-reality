@@ -1,8 +1,11 @@
 package com.github.correa.finalreality.model.weapon.magicweapons;
 
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.BlackMage;
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.WhiteMage;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Staff extends AbstractMagicWeapon {
@@ -30,6 +33,15 @@ public class Staff extends AbstractMagicWeapon {
   @Override
   public void equippedByWhiteMage(WhiteMage whiteMage) {
     whiteMage.equippedBy(this);
+  }
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    super.getInfo();
+    info.put(
+        Stats.WEAPON_TYPE,
+        String.valueOf(WeaponType.STAFF));
+    return info;
   }
 
   @Override

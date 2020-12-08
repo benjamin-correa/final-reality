@@ -1,6 +1,9 @@
 package com.github.correa.finalreality.model.weapon.magicweapons;
 
+import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.weapon.AbstractWeapon;
+
+import java.util.HashMap;
 
 public abstract class AbstractMagicWeapon extends AbstractWeapon {
 
@@ -24,5 +27,17 @@ public abstract class AbstractMagicWeapon extends AbstractWeapon {
     this.magicDamage = magicDamage;
   }
 
-  public int getMagicDamage(){ return magicDamage; }
+  @Override
+  public int getMagicDamage(){
+    return magicDamage;
+  }
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    super.getInfo();
+    info.put(
+        Stats.MAGIC_DMG,
+        String.valueOf(getMagicDamage()));
+    return info;
+  }
 }

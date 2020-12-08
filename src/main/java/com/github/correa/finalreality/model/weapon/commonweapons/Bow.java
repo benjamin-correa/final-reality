@@ -1,9 +1,12 @@
 package com.github.correa.finalreality.model.weapon.commonweapons;
 
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Thief;
 import com.github.correa.finalreality.model.weapon.AbstractWeapon;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Bow extends AbstractWeapon {
@@ -28,6 +31,15 @@ public class Bow extends AbstractWeapon {
   @Override
   public void equippedByThief(Thief thief) {
     thief.equippedBy(this);
+  }
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    super.getInfo();
+    info.put(
+        Stats.WEAPON_TYPE,
+        String.valueOf(WeaponType.BOW));
+    return info;
   }
 
   @Override

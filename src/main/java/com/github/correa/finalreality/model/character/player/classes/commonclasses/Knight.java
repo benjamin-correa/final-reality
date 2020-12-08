@@ -1,10 +1,13 @@
 package com.github.correa.finalreality.model.character.player.classes.commonclasses;
 
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.player.AbstractPlayerCharacter;
 import com.github.correa.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
@@ -17,17 +20,17 @@ public class Knight extends AbstractPlayerCharacter {
    *  the queue with the characters waiting for their turn.
    * @param name
    *  the Knight's name.
-   * @param hitPoints
-   *  the Knight's hit points.
+   * @param maxHitPoints
+   *  the Knight's maximum hit points.
    * @param defensePoints
    *  the Knight's defense points.
    */
   public Knight(
       @NotNull BlockingQueue<ICharacter> turnsQueue,
-      @NotNull String name, int hitPoints,
+      @NotNull String name, int maxHitPoints,
       int defensePoints) {
     super(turnsQueue, name,
-        hitPoints, defensePoints);
+        maxHitPoints, defensePoints);
   }
 
   @Override
@@ -38,6 +41,15 @@ public class Knight extends AbstractPlayerCharacter {
   @Override
   public void equip(final @NotNull IWeapon weapon) {
     weapon.equippedByKnight(this);
+  }
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    super.getInfo();
+    info.put(
+        Stats.CHARACTER_TYPE,
+        String.valueOf(CharacterType.KNIGHT));
+    return info;
   }
 
   @Override
