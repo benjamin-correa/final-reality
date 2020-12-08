@@ -1,6 +1,9 @@
 package com.github.cc3002.finalreality.model.character.player;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacterTest;
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
+import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.player.IPlayerCharacter;
 import com.github.correa.finalreality.model.weapon.IWeapon;
 import com.github.correa.finalreality.model.weapon.commonweapons.Axe;
@@ -10,8 +13,9 @@ import com.github.correa.finalreality.model.weapon.commonweapons.Sword;
 import com.github.correa.finalreality.model.weapon.magicweapons.Staff;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -21,14 +25,9 @@ import java.util.List;
  * @author Benjamín Correa Karstulovic.
  * @see IPlayerCharacter
  */
-public abstract class AbstractPlayerCharacterTest extends AbstractCharacterTest {
-  protected List<IWeapon> testWeapon;
-
-  public void tryToEquip(IPlayerCharacter character) {
-    for (var weapon : testWeapon) {
-      character.equip(weapon);
-    }
-  }
+public abstract class AbstractPlayerCharacterTest
+    extends AbstractCharacterTest {
+  protected IPlayerCharacter testPlayerCharacter;
 
   /**
    * Checks if the equip method works properly
@@ -38,12 +37,48 @@ public abstract class AbstractPlayerCharacterTest extends AbstractCharacterTest 
 
   public void basicSetUp(){
     super.basicSetUp();
-    testWeapon = new ArrayList<>();
-    testWeapon.add(new Axe("Test", 6, 10));
-    testWeapon.add(new Knife("Test", 6, 10));
-    testWeapon.add(new Bow("Test", 6, 10));
-    testWeapon.add(new Sword("Test", 6, 10));
-    testWeapon.add(new Staff("Test", 6, 15, 10));
   }
+
+  @Test
+  public void checkAttack() {
+    testPlayerCharacter = (IPlayerCharacter) (testCharacter);
+    testPlayerCharacter.unequip();
+    testPlayerCharacter.getAttack();
+  }
+
+  @Test
+  public void checkWeight() {
+    testPlayerCharacter = (IPlayerCharacter) (testCharacter);
+    testPlayerCharacter.unequip();
+    testPlayerCharacter.getWeight();
+  }
+
+  @Override
+  protected void checkGetInfo(ICharacter character) {
+    super.checkGetInfo(character);
+    var testInfo = character.getInfo();
+    assertEquals(
+        Integer.parseInt(testInfo.get(Stats.MAX_HP)), character.getMaxHitPoints());
+  }
+
+  /**
+   * Returns a weapon for testing.
+   */
+  protected IWeapon getWeapon(WeaponType weaponType) {
+    int TEST_DMG = new Random(seed).nextInt(99) + 1;
+    return switch (weaponType) {
+      case AXE -> new Axe(
+          "Test", TEST_DMG, 10);
+      case KNIFE -> new Knife(
+          "Test", TEST_DMG, 10);
+      case BOW -> new Bow(
+          "Test", TEST_DMG, 10);
+      case SWORD -> new Sword(
+          "Test", TEST_DMG, 10);
+      case STAFF -> new Staff(
+          "Test", TEST_DMG, 15, 10);
+    };
+  }
+
 
 }

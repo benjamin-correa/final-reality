@@ -23,36 +23,56 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    *  the queue with the characters waiting for their turn.
    * @param name
    * the player character's name.
-   * @param hitPoints
-   *  the player character's hit points.
+   * @param maxHitPoints
+   *  the player character's maximum hit points.
    * @param defensePoints
    *  the player character's defense points.
    */
   public AbstractPlayerCharacter(
       @NotNull BlockingQueue<ICharacter> turnsQueue, @NotNull String name,
-      int hitPoints, int defensePoints) {
-    super(turnsQueue, name, hitPoints, defensePoints);
+      int maxHitPoints, int defensePoints) {
+    super(turnsQueue, name, maxHitPoints, defensePoints);
     this.equippedWeapon = null;
   }
 
   @Override
   public int getAttack() {
-    return this.getEquippedWeapon().getDamage();
+    if (equippedWeapon == null) {
+      return 0;
+    }
+    else {
+      return this.getEquippedWeapon().getDamage();
+    }
   }
 
   @Override
   public abstract void equip(IWeapon weapon);
 
+  @Override
+  public void unequip(){
+    this.equippedWeapon = null;
+  }
+
+  /**
+   * Equips the weapon if the character is alive.
+   */
   public void equippedBy (IWeapon weapon) {
-    if (this.isAlive() == true){
+    if (this.isAlive()){
       this.equippedWeapon = weapon;
     }
   }
 
   @Override
-  public IWeapon getEquippedWeapon() { return equippedWeapon; }
+  public IWeapon getEquippedWeapon() {
+    return equippedWeapon;
+  }
 
   @Override
-  public int getWeight() {return this.equippedWeapon.getWeight();  }
+  public int getWeight() {
+    if (getEquippedWeapon() != null) {
+      return this.equippedWeapon.getWeight();
+    }
+    return 0;
+  }
 
 }

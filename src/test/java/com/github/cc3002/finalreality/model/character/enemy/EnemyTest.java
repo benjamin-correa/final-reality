@@ -1,9 +1,13 @@
 package com.github.cc3002.finalreality.model.character.enemy;
 
 import com.github.cc3002.finalreality.model.character.AbstractCharacterTest;
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -61,7 +65,7 @@ class EnemyTest extends AbstractCharacterTest {
   }
 
   @Override
-  @Test
+  @RepeatedTest(500)
   protected void attackTest() {
     assertEquals(testCharacter, getCharacter(CharacterType.ENEMY));
     checkAttack(getCharacter(CharacterType.BLACK_MAGE));
@@ -75,6 +79,22 @@ class EnemyTest extends AbstractCharacterTest {
     checkAttack(getCharacter(CharacterType.ENGINEER));
     checkAttack(getCharacter(CharacterType.KNIGHT));
     checkAttack(getCharacter(CharacterType.THIEF));
+  }
+
+  @Override
+  @Test
+  protected void getInfoTest() {
+    checkGetInfo(testCharacter);
+  }
+
+  @Override
+  protected void checkGetInfo(ICharacter character) {
+    super.checkGetInfo(character);
+    var testInfo = character.getInfo();
+    assertEquals(
+        CharacterType.ENEMY,
+        CharacterType.valueOf(
+            testInfo.get(Stats.CHARACTER_TYPE)));
   }
 
 }

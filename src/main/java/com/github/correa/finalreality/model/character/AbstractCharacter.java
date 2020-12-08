@@ -1,5 +1,6 @@
 package com.github.correa.finalreality.model.character;
 
+import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Knight;
@@ -8,6 +9,7 @@ import com.github.correa.finalreality.model.character.player.classes.mageclasses
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.WhiteMage;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
@@ -24,9 +26,10 @@ public abstract class AbstractCharacter implements ICharacter {
 
   protected final BlockingQueue<ICharacter> turnsQueue;
   protected final String name;
-  private int maxHitPoints;
+  protected HashMap<Stats, String> info;
+  private final int maxHitPoints;
   private int hitPoints;
-  private int defensePoints;
+  private final int defensePoints;
   private boolean alive;
   private ScheduledExecutorService scheduledExecutor;
   private Random rng;
@@ -39,7 +42,7 @@ public abstract class AbstractCharacter implements ICharacter {
    * @param name
    *  the character's name.
    * @param maxHitPoints
-   *  the character's max hit points.
+   *  the character's maximum hit points.
    * @param defensePoints
    *  the character's defense points.
    */
@@ -54,6 +57,7 @@ public abstract class AbstractCharacter implements ICharacter {
     this.defensePoints = defensePoints;
     this.alive = true;
     this.rng = new Random();
+    this.info = new HashMap<>();
   }
 
   @Override
@@ -65,7 +69,13 @@ public abstract class AbstractCharacter implements ICharacter {
   /**
    * Return this character's weight.
    */
+  @Override
   public abstract int getWeight();
+
+  @Override
+  public int getMaxHitPoints() {
+    return this.maxHitPoints;
+  }
 
   @Override
   public long getSeed() {
@@ -97,7 +107,7 @@ public abstract class AbstractCharacter implements ICharacter {
       this.hitPoints = 0;
     }
     else {
-      this.hitPoints = hitPoints;
+      this.hitPoints = Math.min(hitPoints, maxHitPoints);
     }
   }
 
@@ -109,6 +119,19 @@ public abstract class AbstractCharacter implements ICharacter {
 
   @Override
   public abstract void attack(final ICharacter opponent);
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    info.clear();
+    info.put(Stats.NAME, String.valueOf(getName()));
+    info.put(Stats.HP, String.valueOf(getHitPoints()));
+    info.put(Stats.DMG, String.valueOf(getAttack()));
+    info.put(Stats.DEF, String.valueOf(getDefensePoints()));
+    info.put(Stats.WEIGHT, String.valueOf(getWeight()));
+    info.put(Stats.IS_ALIVE, String.valueOf(isAlive()));
+    info.put(Stats.MAX_HP, String.valueOf(getMaxHitPoints()));
+    return info;
+  }
 
   /**
    * A character receive an attack.
@@ -129,42 +152,42 @@ public abstract class AbstractCharacter implements ICharacter {
 
   @Override
   public void attackedByEnemy(Enemy enemy) {
-    if (enemy.isAlive() == true) {
+    if (enemy.isAlive()) {
       this.attackedBy(enemy.getAttack());
     }
   }
 
   @Override
   public void attackedByEngineer(Engineer engineer) {
-    if (engineer.isAlive() == true) {
+    if (engineer.isAlive()) {
       this.attackedBy(engineer.getEquippedWeapon().getDamage());
     }
   }
 
   @Override
   public void attackedByKnight(Knight knight) {
-    if (knight.isAlive() == true) {
+    if (knight.isAlive()) {
       this.attackedBy(knight.getEquippedWeapon().getDamage());
     }
   }
 
   @Override
   public void attackedByThief(Thief thief) {
-    if (thief.isAlive() == true) {
+    if (thief.isAlive()) {
       this.attackedBy(thief.getEquippedWeapon().getDamage());
     }
   }
 
   @Override
   public void attackedByWhiteMage(WhiteMage whiteMage) {
-    if (whiteMage.isAlive() == true) {
+    if (whiteMage.isAlive()) {
       this.attackedBy(whiteMage.getEquippedWeapon().getDamage());
     }
   }
 
   @Override
   public void attackedByBlackMage(BlackMage blackMage) {
-    if (blackMage.isAlive() == true) {
+    if (blackMage.isAlive()) {
       this.attackedBy(blackMage.getEquippedWeapon().getDamage());
     }
   }

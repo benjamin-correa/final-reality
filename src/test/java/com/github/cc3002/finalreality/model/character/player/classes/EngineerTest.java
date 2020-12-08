@@ -1,12 +1,18 @@
 package com.github.cc3002.finalreality.model.character.player.classes;
 
 import com.github.cc3002.finalreality.model.character.player.AbstractPlayerCharacterTest;
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
+import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 /**
@@ -33,32 +39,14 @@ public class EngineerTest extends AbstractPlayerCharacterTest {
     super.basicSetUp();
     testEngineer = new Engineer(turns, ENGINEER_NAME,
         BASE_TEST_HP, BASE_TEST_DP);
+    testEngineer.equip(getWeapon(WeaponType.AXE));
     testCharacter = testEngineer;
-    tryToEquip(testEngineer);
   }
 
   @Override
   @Test
   public void waitTurnTest() {
-    tryToEquip(testEngineer);
     checkWaitTurn(testEngineer);
-  }
-
-  @Override
-  @Test
-  protected void attackTest() {
-    assertEquals(testCharacter, getCharacter(CharacterType.ENGINEER));
-    checkAttack(getCharacter(CharacterType.ENEMY));
-    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
-    checkAttack(getCharacter(CharacterType.BLACK_MAGE));
-    checkAttack(getCharacter(CharacterType.KNIGHT));
-    checkAttack(getCharacter(CharacterType.THIEF));
-    testCharacter.setHitPoints(0);
-    checkAttack(getCharacter(CharacterType.ENEMY));
-    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
-    checkAttack(getCharacter(CharacterType.ENGINEER));
-    checkAttack(getCharacter(CharacterType.KNIGHT));
-    checkAttack(getCharacter(CharacterType.THIEF));
   }
 
   @Override
@@ -78,11 +66,51 @@ public class EngineerTest extends AbstractPlayerCharacterTest {
   public void checkEquipTest() {
     var testEquipEngineer = new Engineer(turns, ENGINEER_NAME,
         BASE_TEST_HP, BASE_TEST_DP);
-    testEquipEngineer.setHitPoints(0);
-    tryToEquip(testEquipEngineer);
+    var expectedWeapon = getWeapon(WeaponType.AXE);
+    var unexpectedWeapon = getWeapon(WeaponType.KNIFE);
+    testEngineer.equip(getWeapon(WeaponType.BOW));
+    testEquipEngineer.equip(expectedWeapon);
+    assertEquals(expectedWeapon, testEquipEngineer.getEquippedWeapon());
+    testEquipEngineer.equip(unexpectedWeapon);
+    assertNotEquals(unexpectedWeapon, testEquipEngineer.getEquippedWeapon());
+    testEquipEngineer.unequip();
     assertEquals(null, testEquipEngineer.getEquippedWeapon());
-    assertTrue(testEngineer.isAlive());
-    tryToEquip(testEngineer);
-    assertNotEquals(null, testEngineer.getEquippedWeapon());
+    testEquipEngineer.setHitPoints(0);
+    testEquipEngineer.equip(expectedWeapon);
+    assertEquals(null, testEquipEngineer.getEquippedWeapon());
+  }
+
+
+  @Override
+  @RepeatedTest(500)
+  protected void attackTest() {
+    assertEquals(testCharacter, getCharacter(CharacterType.ENGINEER));
+    checkAttack(getCharacter(CharacterType.ENEMY));
+    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
+    checkAttack(getCharacter(CharacterType.BLACK_MAGE));
+    checkAttack(getCharacter(CharacterType.KNIGHT));
+    checkAttack(getCharacter(CharacterType.THIEF));
+    testCharacter.setHitPoints(0);
+    checkAttack(getCharacter(CharacterType.ENEMY));
+    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
+    checkAttack(getCharacter(CharacterType.ENGINEER));
+    checkAttack(getCharacter(CharacterType.KNIGHT));
+    checkAttack(getCharacter(CharacterType.THIEF));
+  }
+
+  @Override
+  @Test
+  protected void getInfoTest() {
+    checkGetInfo(testCharacter);
+  }
+
+  @Override
+  protected void checkGetInfo(ICharacter character) {
+    super.checkGetInfo(character);
+    var testInfo = character.getInfo();
+    assertEquals(
+        CharacterType.ENGINEER,
+        CharacterType.valueOf(
+            testInfo.get(Stats.CHARACTER_TYPE)));
   }
 }

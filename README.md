@@ -19,7 +19,7 @@ enemies controlled by the computer.
 Features
 -------
 
-This game is following the model-view-controller software design pattern and the SOLID principles (for more details, read the change log).
+This game is following the model-view-controller software design pattern, and the SOLID principles (for more details, read the change log).
 
 1. Implemented the model.  
 
@@ -27,13 +27,18 @@ This game is following the model-view-controller software design pattern and the
     
         1. The _player classes_ implements the same interface.  
         
-        2. The _player classes_ are divided in two. 
+        2. The _player classes_ are divided in two: 
         
-            1. Common _player classes_.  
+            1. Common _player classes_:  
+                * Thief.
+                * Engineer.
+                * Knight.
               
-            2. Mage _player classes_.
+            2. Mage _player classes_:
             
                 * This classes implements _mana points_.
+                    * Black Mage.
+                    * White Mage.
                 
             3. Both _player classes_ can equip weapons (to be implemented).
             
@@ -52,19 +57,38 @@ This game is following the model-view-controller software design pattern and the
     2. The game is played by turns.
     
         1. The time that each character waits to play is calculated by their weight.
+        
             * The _player characters_ weight is calculated by their weapon weight.
             * Once a character attack, immediately enters to the queue.
             * The minimum wait time on the queue is (weight/10).
-          
-    3. Created the _inventory class_.
-    
-        * This class holds up all the _player_ weapons
+            
+    3. There are two types of weapons.
+        1. Common weapons:
+            * Knife.
+            * Sword.
+            * Bow.
+            * Axe.
+            
+        2. Magic weapons:
+            * These weapons have an extra magic damage attribute.
+                * Staff
         
-2. View.
+2. Controller.
     
-    Coming soon....
-
-3. Controller.
+    * The controller is an intermediary between the player, and the model.
+    
+    * Can change and interact with the model.
+        
+        1. Can create player characters, enemies and weapons, and assign these to their respective list.
+        
+        2. Can gather information of the model objects.
+        
+        3. Can manipulate the queue and the turn of each character.
+        
+        4. Knows when a player has won or lost.
+    
+    
+3. View.
     
     Coming soon....
 
@@ -73,11 +97,3 @@ Running the game
 ----------------
 
 Coming soon.....
-
-
-To Do List
-----------
-
-- [ ] Filter between the characters that can equip a specific type of weapon or spell.
-- [ ] Implement equip spells.
-- [ ] Implement attack between characters.

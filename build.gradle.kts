@@ -33,7 +33,7 @@ javafx {
 }
 
 configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_14
 }
 
 tasks.named<Test>("test") {

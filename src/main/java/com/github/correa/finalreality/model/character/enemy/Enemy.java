@@ -1,9 +1,12 @@
 package com.github.correa.finalreality.model.character.enemy;
 
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.AbstractCharacter;
 import com.github.correa.finalreality.model.character.ICharacter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
@@ -24,18 +27,18 @@ public class Enemy extends AbstractCharacter {
    *  the queue with the characters waiting for their turn.
    * @param name
    *  the enemy's name.
-   * @param hitPoints
-   *  the enemy's hitPoints.
+   * @param maxHitPoints
+   *  the enemy maximum hit points..
    * @param defensePoints
    *  the enemy's defensePoints.
    * @param weight
    *   the weight of this enemy.
    */
   public Enemy(@NotNull final String name,
-      int hitPoints,int damage, int defensePoints,
+      int maxHitPoints,int damage, int defensePoints,
       @NotNull final BlockingQueue<ICharacter> turnsQueue,
       final int weight) {
-    super(turnsQueue, name, hitPoints, defensePoints);
+    super(turnsQueue, name, maxHitPoints, defensePoints);
     this.weight = weight;
     this.damage = damage;
   }
@@ -46,11 +49,22 @@ public class Enemy extends AbstractCharacter {
   }
 
   @Override
-  public int getAttack() { return damage; }
+  public int getAttack() {
+    return damage;
+  }
 
   @Override
   public void attack(final @NotNull ICharacter opponent){
     opponent.attackedByEnemy(this);
+  }
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    super.getInfo();
+    info.put(
+        Stats.CHARACTER_TYPE,
+        String.valueOf(CharacterType.ENEMY));
+    return info;
   }
 
   @Override

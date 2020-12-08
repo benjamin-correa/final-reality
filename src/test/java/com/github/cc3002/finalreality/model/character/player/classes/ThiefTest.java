@@ -1,9 +1,14 @@
 package com.github.cc3002.finalreality.model.character.player.classes;
 
 import com.github.cc3002.finalreality.model.character.player.AbstractPlayerCharacterTest;
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
+import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Thief;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,32 +38,14 @@ public class ThiefTest extends AbstractPlayerCharacterTest {
     super.basicSetUp();
     testThief = new Thief(turns, THIEF_NAME,
         BASE_TEST_HP, BASE_TEST_DP);
+    testThief.equip(getWeapon(WeaponType.BOW));
     testCharacter = testThief;
-    tryToEquip(testThief);
   }
 
   @Override
   @Test
   public void waitTurnTest() {
-    tryToEquip(testThief);
     checkWaitTurn(testThief);
-  }
-
-  @Override
-  @Test
-  protected void attackTest() {
-    assertEquals(testCharacter, getCharacter(CharacterType.THIEF));
-    checkAttack(getCharacter(CharacterType.ENEMY));
-    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
-    checkAttack(getCharacter(CharacterType.ENGINEER));
-    checkAttack(getCharacter(CharacterType.KNIGHT));
-    checkAttack(getCharacter(CharacterType.BLACK_MAGE));
-    testCharacter.setHitPoints(0);
-    checkAttack(getCharacter(CharacterType.ENEMY));
-    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
-    checkAttack(getCharacter(CharacterType.ENGINEER));
-    checkAttack(getCharacter(CharacterType.KNIGHT));
-    checkAttack(getCharacter(CharacterType.THIEF));
   }
 
   @Override
@@ -78,10 +65,52 @@ public class ThiefTest extends AbstractPlayerCharacterTest {
   public void checkEquipTest() {
     var testEquipThief = new Thief(turns, THIEF_NAME,
         BASE_TEST_HP, BASE_TEST_DP);
-    testEquipThief.setHitPoints(0);
-    tryToEquip(testEquipThief);
+    var expectedWeapon = getWeapon(WeaponType.BOW);
+    var unexpectedWeapon = getWeapon(WeaponType.STAFF);
+    testEquipThief.equip(getWeapon(WeaponType.KNIFE));
+    testEquipThief.equip(getWeapon(WeaponType.SWORD));
+    testEquipThief.equip(expectedWeapon);
+    assertEquals(expectedWeapon, testEquipThief.getEquippedWeapon());
+    testEquipThief.equip(unexpectedWeapon);
+    assertNotEquals(unexpectedWeapon, testEquipThief.getEquippedWeapon());
+    testEquipThief.unequip();
     assertEquals(null, testEquipThief.getEquippedWeapon());
-    tryToEquip(testThief);
-    assertNotEquals(null, testThief.getEquippedWeapon());
+    testEquipThief.setHitPoints(0);
+    testEquipThief.equip(expectedWeapon);
+    assertEquals(null, testEquipThief.getEquippedWeapon());
+  }
+
+
+  @Override
+  @RepeatedTest(500)
+  protected void attackTest() {
+    assertEquals(testCharacter, getCharacter(CharacterType.THIEF));
+    checkAttack(getCharacter(CharacterType.ENEMY));
+    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
+    checkAttack(getCharacter(CharacterType.ENGINEER));
+    checkAttack(getCharacter(CharacterType.KNIGHT));
+    checkAttack(getCharacter(CharacterType.BLACK_MAGE));
+    testCharacter.setHitPoints(0);
+    checkAttack(getCharacter(CharacterType.ENEMY));
+    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
+    checkAttack(getCharacter(CharacterType.ENGINEER));
+    checkAttack(getCharacter(CharacterType.KNIGHT));
+    checkAttack(getCharacter(CharacterType.THIEF));
+  }
+
+  @Override
+  @Test
+  protected void getInfoTest() {
+    checkGetInfo(testCharacter);
+  }
+
+  @Override
+  protected void checkGetInfo(ICharacter character) {
+    super.checkGetInfo(character);
+    var testInfo = character.getInfo();
+    assertEquals(
+        CharacterType.THIEF,
+        CharacterType.valueOf(
+            testInfo.get(Stats.CHARACTER_TYPE)));
   }
 }

@@ -1,10 +1,13 @@
 package com.github.correa.finalreality.model.weapon.commonweapons;
 
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Knight;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Thief;
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.BlackMage;
 import com.github.correa.finalreality.model.weapon.AbstractWeapon;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Knife extends AbstractWeapon {
@@ -34,6 +37,15 @@ public class Knife extends AbstractWeapon {
   @Override
   public void equippedByBlackMage(BlackMage blackMage) {
     blackMage.equippedBy(this);
+  }
+
+  @Override
+  public HashMap<Stats, String> getInfo() {
+    super.getInfo();
+    info.put(
+        Stats.WEAPON_TYPE,
+        String.valueOf(WeaponType.KNIFE));
+    return info;
   }
 
   @Override

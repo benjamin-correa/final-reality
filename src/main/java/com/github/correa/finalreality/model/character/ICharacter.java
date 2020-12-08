@@ -1,11 +1,14 @@
 package com.github.correa.finalreality.model.character;
 
+import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Knight;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Thief;
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.BlackMage;
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.WhiteMage;
+
+import java.util.HashMap;
 
 /**
  * This represents a character from the game.
@@ -23,9 +26,19 @@ public interface ICharacter {
   void waitTurn();
 
   /**
-   * Returns the character's attack
+   * Returns the character's attack.
    */
   int getAttack();
+
+  /**
+   * Return this character's weight.
+   */
+  int getWeight();
+
+  /**
+   * Returns the character's max hp.
+   */
+  int getMaxHitPoints();
 
   /**
    * Returns the character's actual seed.
@@ -71,6 +84,11 @@ public interface ICharacter {
    * A character attack another one.
    */
   void attack(ICharacter opponent);
+
+  /**
+   * Returns the character's info.
+   */
+  HashMap<Stats, String> getInfo();
 
   /**
    * A character receive an attack from an enemy.

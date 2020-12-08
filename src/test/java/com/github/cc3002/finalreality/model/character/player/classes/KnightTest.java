@@ -1,9 +1,14 @@
 package com.github.cc3002.finalreality.model.character.player.classes;
 
 import com.github.cc3002.finalreality.model.character.player.AbstractPlayerCharacterTest;
+import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.Stats;
+import com.github.correa.finalreality.enums.WeaponType;
+import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Knight;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,32 +38,14 @@ public class KnightTest extends AbstractPlayerCharacterTest {
     super.basicSetUp();
     testKnight = new Knight(turns, KNIGHT_NAME,
         BASE_TEST_HP, BASE_TEST_DP);
+    testKnight.equip(getWeapon(WeaponType.SWORD));
     testCharacter = testKnight;
-    tryToEquip(testKnight);
   }
 
   @Override
   @Test
   public void waitTurnTest() {
-    tryToEquip(testKnight);
     checkWaitTurn(testKnight);
-  }
-
-  @Override
-  @Test
-  protected void attackTest() {
-    assertEquals(testCharacter, getCharacter(CharacterType.KNIGHT));
-    checkAttack(getCharacter(CharacterType.ENEMY));
-    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
-    checkAttack(getCharacter(CharacterType.ENGINEER));
-    checkAttack(getCharacter(CharacterType.BLACK_MAGE));
-    checkAttack(getCharacter(CharacterType.THIEF));
-    testCharacter.setHitPoints(0);
-    checkAttack(getCharacter(CharacterType.ENEMY));
-    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
-    checkAttack(getCharacter(CharacterType.ENGINEER));
-    checkAttack(getCharacter(CharacterType.KNIGHT));
-    checkAttack(getCharacter(CharacterType.THIEF));
   }
 
   @Override
@@ -78,10 +65,51 @@ public class KnightTest extends AbstractPlayerCharacterTest {
   public void checkEquipTest() {
     var testEquipKnight = new Knight(turns, KNIGHT_NAME,
         BASE_TEST_HP, BASE_TEST_DP);
-    testEquipKnight.setHitPoints(0);
-    tryToEquip(testEquipKnight);
+    var expectedWeapon = getWeapon(WeaponType.SWORD);
+    var unexpectedWeapon = getWeapon(WeaponType.BOW);
+    testEquipKnight.equip(getWeapon(WeaponType.AXE));
+    testEquipKnight.equip(getWeapon(WeaponType.KNIFE));
+    testEquipKnight.equip(expectedWeapon);
+    assertEquals(expectedWeapon, testEquipKnight.getEquippedWeapon());
+    testEquipKnight.equip(unexpectedWeapon);
+    assertNotEquals(unexpectedWeapon, testEquipKnight.getEquippedWeapon());
+    testEquipKnight.unequip();
     assertEquals(null, testEquipKnight.getEquippedWeapon());
-    tryToEquip(testKnight);
-    assertNotEquals(null, testKnight.getEquippedWeapon());
+    testEquipKnight.setHitPoints(0);
+    testEquipKnight.equip(expectedWeapon);
+    assertEquals(null, testEquipKnight.getEquippedWeapon());
+  }
+
+  @Override
+  @RepeatedTest(500)
+  protected void attackTest() {
+    assertEquals(testCharacter, getCharacter(CharacterType.KNIGHT));
+    checkAttack(getCharacter(CharacterType.ENEMY));
+    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
+    checkAttack(getCharacter(CharacterType.ENGINEER));
+    checkAttack(getCharacter(CharacterType.BLACK_MAGE));
+    checkAttack(getCharacter(CharacterType.THIEF));
+    testCharacter.setHitPoints(0);
+    checkAttack(getCharacter(CharacterType.ENEMY));
+    checkAttack(getCharacter(CharacterType.WHITE_MAGE));
+    checkAttack(getCharacter(CharacterType.ENGINEER));
+    checkAttack(getCharacter(CharacterType.KNIGHT));
+    checkAttack(getCharacter(CharacterType.THIEF));
+  }
+
+  @Override
+  @Test
+  protected void getInfoTest() {
+    checkGetInfo(testCharacter);
+  }
+
+  @Override
+  protected void checkGetInfo(ICharacter character) {
+    super.checkGetInfo(character);
+    var testInfo = character.getInfo();
+    assertEquals(
+        CharacterType.KNIGHT,
+        CharacterType.valueOf(
+            testInfo.get(Stats.CHARACTER_TYPE)));
   }
 }
