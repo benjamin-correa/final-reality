@@ -40,7 +40,7 @@ This game is following the model-view-controller software design pattern, and th
                     * Black Mage.
                     * White Mage.
                 
-            3. Both _player classes_ can equip weapons (to be implemented).
+            3. Both _player classes_ can equip weapons.
             
                 * _Thief_ can equip a sword, knife or a bow.
                 * _Knight_ can equip a sword, axe or knife.
