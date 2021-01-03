@@ -45,6 +45,11 @@ public class Staff extends AbstractMagicWeapon {
   }
 
   @Override
+  public String toString() {
+    return "STAFF" + super.toString();
+  }
+
+  @Override
   public boolean equals(final Object o) {
     if (this == o) {
       return true;

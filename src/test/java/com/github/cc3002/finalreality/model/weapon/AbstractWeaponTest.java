@@ -67,4 +67,6 @@ public abstract class AbstractWeaponTest {
         Integer.parseInt(testInfo.get(Stats.DMG)));
   }
 
+  protected abstract void toStringTest();
+
 }

@@ -53,6 +53,11 @@ public class Engineer extends AbstractPlayerCharacter {
   }
 
   @Override
+  public String toString() {
+    return super.toString() + CharacterType.ENGINEER;
+  }
+
+  @Override
   public int hashCode() { return Objects.hash(getName()); }
 
   @Override

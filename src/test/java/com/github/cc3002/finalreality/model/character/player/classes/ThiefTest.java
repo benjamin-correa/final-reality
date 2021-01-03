@@ -113,4 +113,18 @@ public class ThiefTest extends AbstractPlayerCharacterTest {
         CharacterType.valueOf(
             testInfo.get(Stats.CHARACTER_TYPE)));
   }
+
+  void checkToString(ICharacter character) {
+    var string = character.toString();
+    var expectedString = "Name: " +
+        character.getInfo().get(Stats.NAME) +
+        ", " + CharacterType.THIEF;
+    assertEquals(expectedString, string);
+  }
+
+  @Override
+  @Test
+  protected void toStringTest() {
+    checkToString(testCharacter);
+  }
 }

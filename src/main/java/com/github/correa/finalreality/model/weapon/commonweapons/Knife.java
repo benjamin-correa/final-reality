@@ -40,6 +40,11 @@ public class Knife extends AbstractWeapon {
   }
 
   @Override
+  public String toString() {
+    return "KNIFE" + super.toString();
+  }
+
+  @Override
   public HashMap<Stats, String> getInfo() {
     super.getInfo();
     info.put(

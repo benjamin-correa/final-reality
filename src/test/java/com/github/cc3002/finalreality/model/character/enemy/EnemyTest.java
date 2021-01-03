@@ -97,4 +97,18 @@ class EnemyTest extends AbstractCharacterTest {
             testInfo.get(Stats.CHARACTER_TYPE)));
   }
 
+  void checkToString(ICharacter character) {
+    var string = character.toString();
+    var expectedString = "Name: " + character.getInfo().get(Stats.NAME) + ", " + "Weight: " +
+        character.getWeight() + ", HP:" + character.getHitPoints() +
+        ", DEF:" + character.getDefensePoints();
+    assertEquals(expectedString, string);
+  }
+
+  @Override
+  @Test
+  protected void toStringTest() {
+    checkToString(testCharacter);
+  }
+
 }

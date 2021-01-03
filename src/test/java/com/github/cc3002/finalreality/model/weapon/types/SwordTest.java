@@ -55,4 +55,18 @@ public class SwordTest extends AbstractWeaponTest {
         WeaponType.valueOf(
             testInfo.get(Stats.WEAPON_TYPE)));
   }
+
+  void checkToString(IWeapon weapon) {
+    var string = weapon.toString();
+    var expectedString = "SWORD, Name: " +
+        weapon.getName() + ", DMG: " + weapon.getDamage() +
+        ", Weight: " + weapon.getWeight();
+    assertEquals(expectedString, string);
+  }
+
+  @Override
+  @Test
+  protected void toStringTest() {
+    checkToString(testWeapon);
+  }
 }

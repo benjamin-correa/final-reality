@@ -1,11 +1,13 @@
 package com.github.correa.finalreality.model.character.enemy;
 
+import com.github.correa.finalreality.controller.handlers.IEventHandler;
 import com.github.correa.finalreality.enums.CharacterType;
 import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.AbstractCharacter;
 import com.github.correa.finalreality.model.character.ICharacter;
 import org.jetbrains.annotations.NotNull;
 
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -20,6 +22,8 @@ public class Enemy extends AbstractCharacter {
 
   private final int weight;
   private final int damage;
+  private final PropertyChangeSupport enemyDeathNotification =
+      new PropertyChangeSupport(this);
 
   /**
    * Creates a new enemy character.
@@ -65,6 +69,30 @@ public class Enemy extends AbstractCharacter {
         Stats.CHARACTER_TYPE,
         String.valueOf(CharacterType.ENEMY));
     return info;
+  }
+
+  /**
+   * Adds an observer to the enemy's death event.
+   */
+  public void addEnemyDeathListener (IEventHandler enemyDeathHandler) {
+    enemyDeathNotification.addPropertyChangeListener(
+        enemyDeathHandler);
+  }
+
+  @Override
+  public void setHitPoints(int hitPoints) {
+    super.setHitPoints(hitPoints);
+    if (hitPoints <= 0) {
+      enemyDeathNotification.firePropertyChange(
+          "ENEMY_DEATH", null, this);
+    }
+  }
+
+  @Override
+  public String toString() {
+    return super.toString() + "Weight: " +
+        getWeight() + ", HP:" + getHitPoints() +
+        ", DEF:" + getDefensePoints();
   }
 
   @Override

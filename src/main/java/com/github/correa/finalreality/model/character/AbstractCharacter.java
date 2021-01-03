@@ -1,5 +1,6 @@
 package com.github.correa.finalreality.model.character;
 
+import com.github.correa.finalreality.controller.handlers.IEventHandler;
 import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
@@ -9,6 +10,7 @@ import com.github.correa.finalreality.model.character.player.classes.mageclasses
 import com.github.correa.finalreality.model.character.player.classes.mageclasses.WhiteMage;
 import org.jetbrains.annotations.NotNull;
 
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
@@ -32,6 +34,8 @@ public abstract class AbstractCharacter implements ICharacter {
   private final int defensePoints;
   private boolean alive;
   private ScheduledExecutorService scheduledExecutor;
+  private final PropertyChangeSupport nonEmptyQueueNotification =
+      new PropertyChangeSupport(this);
   private Random rng;
   private long seed;
 
@@ -63,7 +67,8 @@ public abstract class AbstractCharacter implements ICharacter {
   @Override
   public void waitTurn() {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-    scheduledExecutor.schedule(this::addToQueue, this.getWeight() / 10, TimeUnit.SECONDS);
+    scheduledExecutor.schedule(
+        this::addToQueue, this.getWeight() / 10, TimeUnit.SECONDS);
   }
 
   /**
@@ -90,8 +95,22 @@ public abstract class AbstractCharacter implements ICharacter {
 
   @Override
   public void addToQueue() {
-    turnsQueue.add(this);
-    scheduledExecutor.shutdown();
+    if (isAlive()) {
+      if (turnsQueue.isEmpty()) {
+        nonEmptyQueueNotification.firePropertyChange(
+            "QUEUE_NON_EMPTY",
+            null,
+            this);
+      }
+      turnsQueue.add(this);
+      scheduledExecutor.shutdown();
+    }
+  }
+
+  @Override
+  public void addNonEmptyQueueListener(IEventHandler nonEmptyQueueHandler) {
+    nonEmptyQueueNotification.addPropertyChangeListener(
+        nonEmptyQueueHandler);
   }
 
   @Override
@@ -112,10 +131,14 @@ public abstract class AbstractCharacter implements ICharacter {
   }
 
   @Override
-  public int getDefensePoints() { return defensePoints; }
+  public int getDefensePoints() {
+    return defensePoints;
+  }
 
   @Override
-  public boolean isAlive() { return alive; }
+  public boolean isAlive() {
+    return alive;
+  }
 
   @Override
   public abstract void attack(final ICharacter opponent);
@@ -190,5 +213,14 @@ public abstract class AbstractCharacter implements ICharacter {
     if (blackMage.isAlive()) {
       this.attackedBy(blackMage.getEquippedWeapon().getDamage());
     }
+  }
+
+  @Override
+  public void unequip(){
+  }
+
+  @Override
+  public String toString() {
+    return "Name: " + name + ", ";
   }
 }

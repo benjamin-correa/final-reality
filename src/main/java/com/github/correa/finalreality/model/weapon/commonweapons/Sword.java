@@ -44,6 +44,11 @@ public class Sword extends AbstractWeapon {
   }
 
   @Override
+  public String toString() {
+    return "SWORD" + super.toString();
+  }
+
+  @Override
   public boolean equals(final Object o) {
     if (this == o) {
       return true;

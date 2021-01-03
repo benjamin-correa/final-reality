@@ -48,8 +48,8 @@ This game is following the model-view-controller software design pattern, and th
                 * _Black_ mage can equip a knife or a staff.
                 * _White_ mage can equip only a staff.
                 
-            4. The weapon can be changed unlimited times in the player turn.
-                * Once the _player character_ attacks can't change his weapon.
+            4. The weapon can be changed in the player turn.
+                * When the _player character_ sets a weapon it can't be changed.
                 
         3. The _enemies_ cannot equip weapons.
             * They have their own weight.
@@ -90,10 +90,72 @@ This game is following the model-view-controller software design pattern, and th
     
 3. View.
     
-    Coming soon....
+    * It has 6 different scenes:
+        
+        1. Settings of the game:
+    
+            * We can set the players party size.
+            
+            * We can create players characters with random stats.
+    
+            * We can randomize the enemies that we will face (1-4 enemies with random stats).
+    
+        2. Player's turn:
+            
+            * We can choose a weapon to equip.
+            
+            * We can attack an enemy character.
+    
+            * We can see the enemy's new health points.
+    
+        3. Enemy's turn:
+        
+            * The enemy selects a random player character to attack.
+    
+            * We can see the new player character health points.
+    
+        4. Waiting for characters:
+        
+            * We wait the queue to have at least one character on it.
+    
+        5. Players win:
+            
+            * Displays a text and an image when the player win.
+    
+        6. Enemies win:
+            
+            * Displays a text and an image when thw enemies win.
 
 
 Running the game
 ----------------
 
-Coming soon.....
+To run the game we have to do the following things.
+
+1. Run ``FinalReality.java``.
+
+2. Select the desired party size.
+
+3. Create the player characters.
+
+4. Choose your random enemies.
+
+5. Start to play.
+
+6. Two things con happen here:
+   
+    1. Is an enemy turn:
+   
+        * You can see the attack recap and pass pressing the button.
+    
+    2. Is a player turn:
+        
+        * You have to choose a weapon to equip and confirm it.
+    
+        * Now you have to choose an enemy to attack.
+    
+        * You can see the attack recap and end your turn.
+    
+7. If the queue is empty you enter to a waiting screen that disappears when the queue is not empty.
+
+8. We will see who wins!!
