@@ -1,10 +1,12 @@
 package com.github.correa.finalreality.model.character.player;
 
+import com.github.correa.finalreality.controller.handlers.IEventHandler;
 import com.github.correa.finalreality.model.character.AbstractCharacter;
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.weapon.IWeapon;
 import org.jetbrains.annotations.NotNull;
 
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -16,6 +18,8 @@ import java.util.concurrent.BlockingQueue;
 public abstract class AbstractPlayerCharacter extends AbstractCharacter implements IPlayerCharacter {
 
   private IWeapon equippedWeapon;
+  private final PropertyChangeSupport playerDeathNotification =
+      new PropertyChangeSupport(this);
 
   /**
    * Creates a new player character.
@@ -73,6 +77,21 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
       return this.equippedWeapon.getWeight();
     }
     return 0;
+  }
+
+  @Override
+  public void addPlayerDeathListener(IEventHandler playerDeathHandler) {
+    playerDeathNotification.addPropertyChangeListener(
+        playerDeathHandler);
+  }
+
+  @Override
+  public void setHitPoints(int hitPoints) {
+    super.setHitPoints(hitPoints);
+    if (hitPoints <= 0) {
+      playerDeathNotification.firePropertyChange(
+          "PLAYER_DEATH", null, this);
+    }
   }
 
 }

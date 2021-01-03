@@ -1,6 +1,11 @@
 package com.github.correa.finalreality.controller;
 
+import com.github.correa.finalreality.controller.states.BeginTurnState;
+import com.github.correa.finalreality.controller.states.EndTurnState;
+import com.github.correa.finalreality.controller.states.OnTurnState;
+import com.github.correa.finalreality.controller.states.SelectingTargetState;
 import com.github.correa.finalreality.enums.CharacterType;
+import com.github.correa.finalreality.enums.States;
 import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.enums.WeaponType;
 import com.github.correa.finalreality.model.character.ICharacter;
@@ -25,8 +30,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class containing the test for the Game Controller and the States.
+ *
+ * @author Ignacio Slater Muñoz.
+ * @author Benjamín Correa Karstulovic.
+ * @see GameController
+ */
 class GameControllerTest {
-  protected GameController gameController;
+  protected GameController controller;
   private final BlockingQueue<ICharacter> turns =
       new LinkedBlockingQueue<>();
   protected long seed;
@@ -55,9 +67,12 @@ class GameControllerTest {
   protected Knife testKnife;
   protected Staff testStaff;
 
+  /**
+   * Basic Set up.
+   */
   @BeforeEach
   void setUp() {
-    gameController = new GameController();
+    controller = new GameController();
     randomize();
     blackMageName = "TEST_MAGE";
     whiteMageName = "TEST_MAGE2";
@@ -91,21 +106,29 @@ class GameControllerTest {
 
   }
 
+  /**
+   * Randomize all the stats
+   */
   void randomize() {
     seed = new Random().nextLong();
     rng = new Random(seed);
-    HP = rng.nextInt(99) + 1;
-    DEF = rng.nextInt(50);
-    MANA = rng.nextInt(100);
-    DMG = rng.nextInt(99) + 1;
-    WEIGHT = rng.nextInt(30) + 10;
+    var stats = controller.getRandomStats();
+    HP = stats.get(Stats.MAX_HP);
+    DEF = stats.get(Stats.DEF);
+    MANA = stats.get(Stats.MAX_MP);
+    DMG = stats.get(Stats.DMG);
+    WEIGHT = stats.get(Stats.WEIGHT)/5;
   }
 
+  /**
+   * Checks that the create methods works properly.
+   */
   @RepeatedTest(20)
   void checkCreatePlayerCharacterTest() {
+    controller.setPartySize(5);
     createPlayerCharacters();
     var testPlayerList =
-        gameController.getPlayerCharacters();
+        controller.getPlayerCharacters();
     assertTrue(
         testPlayerList.contains(testBlackMage));
     assertTrue(
@@ -118,46 +141,58 @@ class GameControllerTest {
         testPlayerList.contains(testWhiteMage));
   }
 
+  /**
+   * Creates player characters in the controller.
+   */
   void createPlayerCharacters() {
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.BLACK_MAGE,
         blackMageName, HP, DEF, MANA);
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.WHITE_MAGE,
         whiteMageName, HP, DEF, MANA);
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.ENGINEER,
         engineerName, HP, DEF, MANA);
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.KNIGHT,
         knightName, HP, DEF, MANA);
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.THIEF,
         thiefName, HP, DEF, MANA);
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.ENEMY,
         thiefName, HP, DEF, MANA);
   }
 
+  /**
+   * Checks that the create methods works properly.
+   */
   @RepeatedTest(20)
   void checkCreateEnemyCharacterTest() {
     createEnemies();
     var testEnemiesList =
-        gameController.getEnemies();
+        controller.getEnemies();
     assertTrue(
         testEnemiesList.contains(testEnemy));
   }
 
+  /**
+   * Creates enemies in the game controller.
+   */
   void createEnemies() {
-    gameController.createEnemyCharacter(
+    controller.createEnemyCharacter(
         enemyName, HP, DMG, DEF, WEIGHT);
   }
 
+  /**
+   * Checks that the create methods works properly.
+   */
   @RepeatedTest(20)
   void checkCreateWeaponTest() {
     createWeapons();
     var testWeaponsList =
-        gameController.getWeapons();
+        controller.getWeapons();
     assertEquals(testBow, testWeaponsList.get(4));
     assertTrue(
         testWeaponsList.contains(testAxe));
@@ -169,155 +204,155 @@ class GameControllerTest {
         testWeaponsList.contains(testSword));
   }
 
+  /**
+   * Creates weapons in the model.
+   */
   void createWeapons() {
-    gameController.createWeapon(
+    controller.createWeapon(
         WeaponType.AXE, weaponName,
         DMG, WEIGHT, DMG);
-    gameController.createWeapon(
+    controller.createWeapon(
         WeaponType.STAFF, weaponName,
         DMG, WEIGHT, DMG);
-    gameController.createWeapon(
+    controller.createWeapon(
         WeaponType.SWORD, weaponName,
         DMG, WEIGHT, DMG);
-    gameController.createWeapon(
+    controller.createWeapon(
         WeaponType.KNIFE, weaponName,
         DMG, WEIGHT, DMG);
-    gameController.createWeapon(
+    controller.createWeapon(
         WeaponType.BOW, weaponName,
         DMG, WEIGHT, DMG);
   }
 
+  /**
+   * Checks that get info methods works properly.
+   */
   @RepeatedTest(20)
   void getPlayerCharacterInfoTest() {
     createPlayerCharacters();
     var testInfo1 =
-        gameController.getPlayerCharacterInfo(testBlackMage);
+        controller.getPlayerCharacterInfo(testBlackMage);
     assertEquals(
         String.valueOf(HP),testInfo1.get(Stats.HP));
     var testInfoCache =
-        gameController.getPlayerCharacterInfo(testBlackMage);
+        controller.getPlayerCharacterInfo(testBlackMage);
     assertEquals(
         String.valueOf(HP),testInfoCache.get(Stats.HP));
   }
 
+  /**
+   * Checks that get info methods works properly.
+   */
   @RepeatedTest(20)
   void getPlayerCharactersInfoTest() {
     createPlayerCharacters();
     var testInfo =
-        gameController.getPlayerCharactersInfo();
+        controller.getPlayerCharactersInfo();
     for (var playerCharacter : testInfo.keySet()) {
       var expectedInfo =
-          gameController.getPlayerCharacterInfo(playerCharacter);
+          controller.getPlayerCharacterInfo(playerCharacter);
       var info =
           testInfo.get(playerCharacter);
       assertEquals(expectedInfo, info);
     }
   }
 
+  /**
+   * Checks that get info methods works properly.
+   */
   @RepeatedTest(20)
   void getEnemyInfoTest() {
     createEnemies();
     var testInfo1 =
-        gameController.getEnemyInfo(testEnemy);
+        controller.getEnemyInfo(testEnemy);
     assertEquals(
         String.valueOf(HP),testInfo1.get(Stats.HP));
     var testInfoCache =
-        gameController.getEnemyInfo(testEnemy);
+        controller.getEnemyInfo(testEnemy);
     assertEquals(
         String.valueOf(HP),testInfoCache.get(Stats.HP));
   }
 
+  /**
+   * Checks that get info methods works properly.
+   */
   @RepeatedTest(20)
   void getEnemiesInfoTest() {
     createEnemies();
     var testInfo =
-        gameController.getEnemiesInfo();
+        controller.getEnemiesInfo();
     for (var enemy : testInfo.keySet()) {
       var expectedInfo =
-          gameController.getEnemyInfo(enemy);
+          controller.getEnemyInfo(enemy);
       var info =
           testInfo.get(enemy);
       assertEquals(expectedInfo, info);
     }
   }
 
+  /**
+   * Checks that get info methods works properly.
+   */
   @RepeatedTest(20)
   void getWeaponInfoTest() {
     createWeapons();
     var testInfo1 =
-        gameController.getWeaponInfo(testAxe);
+        controller.getWeaponInfo(testAxe);
     assertEquals(
         String.valueOf(DMG),testInfo1.get(Stats.DMG));
     var testInfoCache =
-        gameController.getWeaponInfo(testAxe);
+        controller.getWeaponInfo(testAxe);
     assertEquals(
         String.valueOf(DMG),testInfoCache.get(Stats.DMG));
   }
 
+  /**
+   * Checks that get info methods works properly.
+   */
   @RepeatedTest(20)
   void getWeaponsInfoTest() {
     createWeapons();
     var testInfo =
-        gameController.getWeaponsInfo();
+        controller.getWeaponsInfo();
     for (var weapon : testInfo.keySet()) {
       var expectedInfo =
-          gameController.getWeaponInfo(weapon);
+          controller.getWeaponInfo(weapon);
       var info =
           testInfo.get(weapon);
       assertEquals(expectedInfo, info);
     }
   }
 
+  /**
+   * Checks that the equip method works properly.
+   */
   @RepeatedTest(20)
   void equipTest() {
-    gameController.createPlayerCharacter(
+    controller.createPlayerCharacter(
         CharacterType.ENGINEER,
         engineerName, HP, DEF, MANA);
-    gameController.createWeapon(
+    controller.createWeapon(
         WeaponType.AXE, weaponName,
         DMG, WEIGHT, DMG);
-    gameController.equip(
-        testAxe, testEngineer);
+    controller.equip(
+        testEngineer, testAxe);
     assertEquals(
         testEngineer.getEquippedWeapon(), testAxe);
     assertEquals(
         String.valueOf(DMG),
-        gameController.getPlayerCharacterInfo(
+        controller.getPlayerCharacterInfo(
             testEngineer).get(Stats.DMG));
   }
 
-  @RepeatedTest(20)
-  void updateEnemyCacheTest() {
-    createEnemies();
-    randomize();
-    testEnemy.setHitPoints(HP);
-    gameController.updateEnemyCache(
-        testEnemy);
-    var getInfo =
-        gameController.getEnemyInfo(testEnemy);
-    assertEquals(
-        testEnemy.getInfo().get(Stats.HP),
-        getInfo.get(Stats.HP));
-  }
 
-  @RepeatedTest(20)
-  void updatePlayerCacheTest() {
-    createPlayerCharacters();
-    randomize();
-    testEngineer.setHitPoints(HP);
-    gameController.updatePlayerCache(
-        testEngineer);
-    var getInfo =
-        gameController.getPlayerCharacterInfo(testEngineer);
-    assertEquals(
-        testEngineer.getInfo().get(Stats.HP),
-        getInfo.get(Stats.HP));
-  }
-
+  /**
+   * Checks that the attack method works properly.
+   */
   @RepeatedTest(500)
   void attackTest() {
     var baseHP = testEnemy.getHitPoints();
-    gameController.attack(
+    controller.attack(
         testEnemy, testEnemy);
     assertTrue(
         testEnemy.getHitPoints()
@@ -325,67 +360,405 @@ class GameControllerTest {
 
   }
 
-  @RepeatedTest(3)
-  void waitQueueTest(){
-    createEnemies();
-    gameController.waitTurn(
-        gameController.getEnemies().get(0));
-    assertTrue(
-        turns.isEmpty());
-    gameController.waitQueue();
-    assertFalse(
-        gameController.isQueueEmpty());
-    assertEquals(
-        testEnemy,
-        gameController.getFistFromQueue());
-  }
-
+  /**
+   * Checks that is queue empty method works properly.
+   */
   @Test
   void isQueueEmptyTest() {
     createEnemies();
-    assertTrue(
-        gameController.isQueueEmpty());
-    gameController.waitTurn(
-        gameController.getEnemies().get(0));
-    gameController.waitQueue();
-    assertFalse(
-        gameController.isQueueEmpty());
+    try {
+      assertTrue(
+          controller.isQueueEmpty());
+      controller.waitTurn(
+          controller.getEnemies().get(0));
+      Thread.sleep((testEnemy.getWeight()* 100L)+50);
+      assertFalse(
+          controller.isQueueEmpty());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
-  @RepeatedTest(3)
-  void waitTurnTest() {
-    createEnemies();
-    gameController.waitTurn(
-        gameController.getEnemies().get(0));
-    gameController.waitQueue();
-    assertEquals(
-        testEnemy, gameController.getQueue().peek());
-  }
 
+  /**
+   * Checks that remove from queue method works properly.
+   */
   @Test
   void removeFromQueueTest() {
     createEnemies();
-    gameController.waitTurn(
-        gameController.getEnemies().get(0));
-    gameController.waitQueue();
+    controller.startGame();
     assertEquals(
-        testEnemy, gameController.getQueue().peek());
-    gameController.removeFromQueue(
-        gameController.getEnemies().get(0));
+        testEnemy, controller.getQueue().peek());
+    controller.removeFromQueue(
+        controller.getEnemies().get(0));
     assertTrue(
-        gameController.isQueueEmpty());
+        controller.isQueueEmpty());
+
   }
 
+  /**
+   * Checks that the equip method works properly.
+   */
   @Test
   void turnTest() {
     createEnemies();
-    gameController.waitTurn(
-        gameController.getEnemies().get(0));
-    gameController.waitQueue();
-    gameController.beginTurn();
-    var ch = gameController.getCharacterPlaying();
-    assertEquals(testEnemy, ch);
-    gameController.endTurn();
-    assertNull(gameController.getCharacterPlaying());
+    controller.waitTurn(
+        controller.getEnemies().get(0));
+    try {
+      Thread.sleep((testEnemy.getWeight() * 100L) + 50);
+      controller.beginTurn();
+      var ch = controller.getCharacterPlaying();
+      assertEquals(testEnemy, ch);
+      controller.endTurn();
+      assertNull(controller.getCharacterPlaying());
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
+
+  /**
+   * Checks that the death listener method works properly.
+   */
+  @Test
+  void deathListenerTest() {
+    controller.setState(new SelectingTargetState(controller));
+    controller.setPartySize(2);
+    controller.createPlayerCharacter(
+        CharacterType.BLACK_MAGE,
+        blackMageName, HP, DEF, MANA);
+    controller.createPlayerCharacter(
+        CharacterType.WHITE_MAGE,
+        whiteMageName, HP, DEF, MANA);
+    var player1 =
+        controller.getPlayerCharacters().get(0);
+    var player2 =
+        controller.getPlayerCharacters().get(1);
+    controller.createEnemyCharacter(
+        "Killer", 1000,
+        1000, 0, 10);
+    createEnemies();
+    var enemy = controller.getEnemies().get(1);
+    var killer = controller.getEnemies().get(0);
+    controller.attack(killer, player1);
+    assertEquals(
+        1, controller.getPlayersKilled());
+    controller.attack(killer, enemy);
+    assertEquals(
+        1, controller.getEnemiesKilled());
+    controller.attack(killer, player2);
+    assertEquals(
+        2, controller.getPlayersKilled());
+    assertEquals(
+        String.valueOf(
+            States.END_GAME_STATE),
+        controller.getState());
+    controller.setState(new SelectingTargetState(controller));
+    controller.attack(killer,killer);
+    assertEquals(
+        2, controller.getEnemiesKilled());
+  }
+
+  /**
+   * Checks that the start game method works properly.
+   */
+  @Test
+  void startGameTest() {
+    var firstQueue =
+        controller.getQueue();
+    createEnemies();
+    createPlayerCharacters();
+    controller.startGame();
+    assertNotEquals(
+        firstQueue, controller.getQueue());
+  }
+
+  /**
+   * Checks that the party size method works properly.
+   */
+  @Test
+  void partySizeTest(){
+    controller.setPartySize(3);
+    assertEquals(3, controller.getPartySize());
+  }
+
+  /**
+   * Checks that the generate random method works properly.
+   */
+  @Test
+  void generateRandomTest(){
+    seed = new Random().nextLong();
+    rng = new Random(seed);
+    var number1 = rng.nextInt(100);
+    seed = new Random().nextLong();
+    rng = new Random(seed);
+    var number2 = rng.nextInt(100);
+
+    if (number1 >= number2){
+      var random = controller.generateRandom(number2, number1);
+      assertTrue(random >= number2 & random <= number1);
+    }
+    else {
+      var random = controller.generateRandom(number1, number2);
+      assertTrue(random >= number1 & random <= number2);
+    }
+  }
+
+  /**
+   * Checks that the clean enemy party method works properly.
+   */
+  @Test
+  void clearEnemyPartyTest(){
+    createEnemies();
+    assertFalse(controller.getEnemies().isEmpty());
+    controller.cleanEnemyParty();
+    assertTrue(controller.getEnemies().isEmpty());
+  }
+
+  /**
+   * Checks that the try to end turn method works properly.
+   */
+  @Test
+  void tryToEndTurnTest(){
+    createEnemies();
+    controller.startGame();
+    controller.beginTurn();
+    controller.setState(new EndTurnState(controller));
+    assertEquals(String.valueOf(States.END_TURN_STATE), controller.getState());
+    controller.tryToEndTurn();
+    assertEquals(
+        String.valueOf(
+            States.WAITING_STATE),
+        controller.getState());
+    try {
+      Thread.sleep((testEnemy.getWeight() * 100L) + 50);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    assertEquals(String.valueOf(States.BEGIN_TURN_STATE), controller.getState());
+  }
+
+  /**
+   * Checks that the try to attack method works properly.
+   */
+  @Test
+  void tryToAttack(){
+    createEnemies();
+    createPlayerCharacters();
+    controller.startGame();
+    controller.beginTurn();
+
+    controller.setState(new SelectingTargetState(controller));
+    assertEquals(
+        String.valueOf(
+            States.SELECTING_TARGET_STATE),
+        controller.getState());
+
+    controller.tryToAttack(testEnemy, testThief);
+  }
+
+  /**
+   * Checks that the try to start game method works properly.
+   */
+  @Test
+  void tryToStartGame(){
+    createEnemies();
+    createPlayerCharacters();
+    assertEquals(
+        String.valueOf(
+            States.START_GAME_STATE),
+        controller.getState());
+    controller.tryToStartGame();
+    assertEquals(
+        String.valueOf(
+            States.BEGIN_TURN_STATE),
+        controller.getState());
+  }
+
+  /**
+   * Checks that the try to begin turn method works properly.
+   */
+  @Test
+  void tryToBeginTurn(){
+    createEnemies();
+    controller.startGame();
+    controller.setState(new BeginTurnState(controller));
+    assertEquals(
+        String.valueOf(
+            States.BEGIN_TURN_STATE),
+        controller.getState());
+    controller.tryToBeginTurn();
+    assertEquals(
+        String.valueOf(
+            States.ON_TURN_STATE),
+        controller.getState());
+  }
+
+  /**
+   * Checks that the try to equip method works properly.
+   */
+  @Test
+  void tryEquipTest(){
+    createPlayerCharacters();
+    createWeapons();
+    controller.startGame();
+    controller.beginTurn();
+    controller.setState(new OnTurnState(controller));
+    assertEquals(
+        String.valueOf(
+            States.ON_TURN_STATE),
+        controller.getState());
+    controller.tryEquip(testKnight, testStaff);
+    assertEquals(
+        String.valueOf(
+            States.ON_TURN_STATE),
+        controller.getState());
+    controller.tryEquip(testKnight, testAxe);
+    assertEquals(
+        String.valueOf(
+            States.SELECTING_TARGET_STATE),
+        controller.getState());
+  }
+
+  /**
+   * Checks that the set objective method works properly.
+   */
+  @Test
+  void setObjectiveTest(){
+    var expectedObjective = testEnemy;
+    controller.setObjective(testEnemy);
+    assertEquals(expectedObjective, controller.getObjective());
+  }
+
+  /**
+   * Checks that the try to set objective method works properly.
+   */
+  @Test
+  void tryToSetObjectiveTest() {
+    createEnemies();
+    controller.startGame();
+    controller.beginTurn();
+    controller.setState(new SelectingTargetState(controller));
+    assertEquals(
+        String.valueOf(
+            States.SELECTING_TARGET_STATE),
+        controller.getState());
+    controller.tryToSetObjective(testEnemy);
+    assertEquals(
+        String.valueOf(
+            States.SELECTING_TARGET_STATE),
+        controller.getState());
+    assertEquals(testEnemy, controller.getObjective());
+  }
+
+  /**
+   * Checks that the try to go to end turn method works properly.
+   */
+  @Test
+  void tryToGoToEndTurnTest(){
+    createEnemies();
+    controller.startGame();
+    controller.beginTurn();
+    controller.setState(new SelectingTargetState(controller));
+    assertEquals(
+        String.valueOf(
+            States.SELECTING_TARGET_STATE),
+        controller.getState());
+    controller.tryToGoToEndTurn();
+    assertEquals(
+        String.valueOf(
+            States.END_TURN_STATE),
+        controller.getState());
+  }
+
+  /**
+   * Checks that the try to go to selecting target method works properly.
+   */
+  @Test
+  void tryToGoToSelectingTargetTest(){
+    createEnemies();
+    controller.startGame();
+    controller.beginTurn();
+    controller.setState(new OnTurnState(controller));
+    assertEquals(
+        String.valueOf(
+            States.ON_TURN_STATE),
+        controller.getState());
+    controller.tryToGoToSelectingTarget();
+    assertEquals(
+        String.valueOf(
+            States.SELECTING_TARGET_STATE),
+        controller.getState());
+  }
+
+  /**
+   * Checks that the get alive characters method works properly.
+   */
+  @Test
+  void getAliveCharactersTest() {
+    controller.setPartySize(5);
+    createPlayerCharacters();
+    createEnemies();
+    controller.createEnemyCharacter(
+        "Killer", 1000,
+        1000, 0, 10);
+    controller.attack(
+        controller.getEnemies().get(1),
+        controller.getEnemies().get(0));
+    controller.attack(
+        controller.getEnemies().get(0),
+        controller.getPlayerCharacters().get(0));
+    var aliveCharacters =
+        controller.getAliveCharacters();
+    assertFalse(aliveCharacters.contains(testBlackMage.toString()));
+    assertTrue(aliveCharacters.contains(testEngineer.toString()));
+    assertTrue(aliveCharacters.contains(testKnight.toString()));
+    assertTrue(aliveCharacters.contains(testThief.toString()));
+    assertTrue(aliveCharacters.contains(testWhiteMage.toString()));
+    assertFalse(aliveCharacters.contains(testEnemy.toString()));
+  }
+
+  /**
+   * Checks that the find character method works properly.
+   */
+  @Test
+  void findCharacterTest(){
+    controller.setPartySize(5);
+    createEnemies();
+    createPlayerCharacters();
+    controller.startGame();
+    var expectedCharacter = testEngineer;
+    var character = controller.findCharacter(testEngineer.toString());
+    assertEquals(expectedCharacter, character);
+    var expectedEnemy = testEnemy;
+    var enemy = controller.findCharacter(testEnemy.toString());
+    assertEquals(expectedEnemy, enemy);
+    assertNull(controller.findCharacter("null"));
+  }
+
+  /**
+   * Checks that the find weapon method works properly.
+   */
+  @Test
+  void findWeaponTest(){
+    createWeapons();
+    var expectedWeapon = testAxe;
+    var weapon = controller.findWeapon(testAxe.toString());
+    assertEquals(expectedWeapon, weapon);
+    assertNull(controller.findWeapon("null"));
+  }
+
+  /**
+   * Checks that the get weapon strings method works properly.
+   */
+  @Test
+  void getWeaponsStrings() {
+    createWeapons();
+    var info = controller.getWeaponsString();
+    assertTrue(info.contains(testAxe.toString()));
+    assertTrue(info.contains(testBow.toString()));
+    assertTrue(info.contains(testStaff.toString()));
+    assertTrue(info.contains(testSword.toString()));
+    assertTrue(info.contains(testKnife.toString()));
+  }
+
 }

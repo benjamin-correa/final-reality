@@ -68,4 +68,19 @@ public class StaffTest extends AbstractWeaponTest {
         Integer.parseInt(testInfo.get(Stats.MAGIC_DMG)));
   }
 
+
+  void checkToString(IWeapon weapon) {
+    var string = weapon.toString();
+    var expectedString = "STAFF, Name: " +
+        weapon.getName() + ", DMG: " + weapon.getDamage() +
+        ", Weight: " + weapon.getWeight();
+    assertEquals(expectedString, string);
+  }
+
+  @Override
+  @Test
+  protected void toStringTest() {
+    checkToString(testWeapon);
+  }
+
 }

@@ -1,5 +1,6 @@
 package com.github.correa.finalreality.model.character.player;
 
+import com.github.correa.finalreality.controller.handlers.IEventHandler;
 import com.github.correa.finalreality.model.character.ICharacter;
 import com.github.correa.finalreality.model.weapon.IWeapon;
 
@@ -23,8 +24,8 @@ public interface IPlayerCharacter extends ICharacter {
   void equip(IWeapon weapon);
 
   /**
-   * Set the equipped weapon to null.
+   * Adds an observer to the player's death event.
    */
-  void unequip();
+  void addPlayerDeathListener(final IEventHandler characterDeathHandler);
 
 }

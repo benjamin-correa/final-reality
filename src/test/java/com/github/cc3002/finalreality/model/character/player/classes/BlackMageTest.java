@@ -159,5 +159,17 @@ public class BlackMageTest extends AbstractPlayerCharacterTest {
     testBlackMage.unequip();
     assertEquals(0, testBlackMage.getMagicDamage());
   }
+
+  void checkToString(ICharacter character) {
+    var string = character.toString();
+    var expectedString = "Name: " + character.getInfo().get(Stats.NAME) + ", " + CharacterType.BLACK_MAGE;
+    assertEquals(expectedString, string);
+  }
+
+  @Override
+  @Test
+  protected void toStringTest() {
+    checkToString(testCharacter);
+  }
 }
 

@@ -200,4 +200,6 @@ public abstract class AbstractCharacterTest {
   }
 
 
+  @Test
+  protected abstract void toStringTest();
 }

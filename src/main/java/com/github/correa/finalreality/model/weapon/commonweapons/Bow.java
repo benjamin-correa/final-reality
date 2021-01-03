@@ -34,6 +34,11 @@ public class Bow extends AbstractWeapon {
   }
 
   @Override
+  public String toString() {
+    return "BOW" + super.toString();
+  }
+
+  @Override
   public HashMap<Stats, String> getInfo() {
     super.getInfo();
     info.put(

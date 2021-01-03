@@ -1,5 +1,6 @@
 package com.github.correa.finalreality.model.character;
 
+import com.github.correa.finalreality.controller.handlers.IEventHandler;
 import com.github.correa.finalreality.enums.Stats;
 import com.github.correa.finalreality.model.character.enemy.Enemy;
 import com.github.correa.finalreality.model.character.player.classes.commonclasses.Engineer;
@@ -54,6 +55,11 @@ public interface ICharacter {
    * Adds this character to the turns queue.
    */
   void addToQueue();
+
+  /**
+   * Adds an observer to the event add a character to the queue.
+   */
+  void addNonEmptyQueueListener(final IEventHandler nonEmptyQueueHandler);
 
   /**
    * Returns this character's name.
@@ -119,4 +125,9 @@ public interface ICharacter {
    * A character receive an attack from a black mage.
    */
   void attackedByBlackMage(BlackMage blackMage);
+
+  /**
+   * Set the equipped weapon to null.
+   */
+  void unequip();
 }

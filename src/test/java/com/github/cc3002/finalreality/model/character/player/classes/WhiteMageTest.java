@@ -165,5 +165,19 @@ public class WhiteMageTest extends AbstractPlayerCharacterTest {
     testWhiteMage.unequip();
     assertEquals(0, testWhiteMage.getMagicDamage());
   }
+
+  void checkToString(ICharacter character) {
+    var string = character.toString();
+    var expectedString = "Name: " +
+        character.getInfo().get(Stats.NAME) +
+        ", " + CharacterType.WHITE_MAGE;
+    assertEquals(expectedString, string);
+  }
+
+  @Override
+  @Test
+  protected void toStringTest() {
+    checkToString(testCharacter);
+  }
 }
 

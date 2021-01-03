@@ -55,6 +55,11 @@ public class WhiteMage extends AbstractMage {
   }
 
   @Override
+  public String toString() {
+    return super.toString() + CharacterType.WHITE_MAGE;
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(getName());
   }
